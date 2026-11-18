@@ -1636,9 +1636,9 @@ const gyF=n=>String(Math.round(n*10)/10).replace('.',',');
 function gyWeek(){return Math.max(0,Math.floor(trDiff(S.gy.start,today())/7))}
 function gyDays(w){const o=w!=null&&S.gy&&S.gy.ov&&S.gy.ov[w];if(Array.isArray(o)&&o.length===3&&o.every(d=>d>=-1&&d<=4))return o;return (S.gy?S.gy.days:[0,2,4]).slice().sort((a,b)=>a-b)}
 function gyDone(w){return [0,1,2].filter(i=>S.gy.logs[gyKey(w,i)]).length}
-function gyNs(n,p){return p<2?Math.max(3,n-1):p===7?Math.max(2,Math.ceil(n/2)):n}
+function gyNs(n,p){return p===7?Math.max(2,Math.ceil(n/2)):n}
 function gySub(slot){return (S.gy.sub&&S.gy.sub[slot]&&GX[S.gy.sub[slot]])?S.gy.sub[slot]:slot}
-function gyMig(){const g=S.gy;if(!g||g.mig)return;g.mig=1;g.sub=g.sub||{};Object.keys(g.logs||{}).forEach(k=>{const l=g.logs[k],m=/^\d+g(\d)$/.exec(k);if(!l||!l.sets||!m)return;const pl=GPLAN[+m[1]];if(!pl)return;Object.keys(l.sets).forEach(id=>{const e=pl.find(q=>q.id!==id&&q.alt&&q.alt.indexOf(id)>=0);if(e&&!l.sets[e.id]&&g.sub[e.id]===undefined)g.sub[e.id]=id})})}
+function gyMig(){const g=S.gy;if(g&&g.pv!==57){g.pv=57;g.mig=1;const o=g.sub||{},n={};Object.keys(o).forEach(k=>{GPLAN.forEach(pl=>pl.forEach(e=>{if(e.id===k&&e.alt.indexOf(o[k])>=0)n[k]=o[k]}))});g.sub=n}if(!g||g.mig)return;g.mig=1;g.sub=g.sub||{};Object.keys(g.logs||{}).forEach(k=>{const l=g.logs[k],m=/^\d+g(\d)$/.exec(k);if(!l||!l.sets||!m)return;const pl=GPLAN[+m[1]];if(!pl)return;Object.keys(l.sets).forEach(id=>{const e=pl.find(q=>q.id!==id&&q.alt&&q.alt.indexOf(id)>=0);if(e&&!l.sets[e.id]&&g.sub[e.id]===undefined)g.sub[e.id]=id})})}
 function gyItems(w,i,short){
   gyMig();const p=w%8;
   const its=GPLAN[i].filter(e=>!(short&&e.o)).map(e=>{const id=gySub(e.id),n0=gyNs(e.n,p),n=short?Math.max(2,n0-1):n0,u=!!GX[id].u;return {slot:e.id,id:id,alt:e.alt,n:n,lo:e.lo,hi:e.hi,r:e.r,c:!!e.c,u:u,xw:0}});
