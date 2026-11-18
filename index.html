@@ -1623,9 +1623,9 @@ const GNOME=['Superior 1','Inferior 1','Superior 2'],GLET=['A','B','C'];
 const GFOCO=['Peito, costas, ombros e braços','Pernas e abdômen','Peito, costas, ombros e braços (variação)'];
 /* id = exercício padrão; n séries; lo-hi repetições; r descanso em s; c composto; o opcional (some no treino curto); alt = trocas */
 const GPLAN=[
- [{id:'bp',n:3,lo:8,hi:12,r:90,c:1,alt:['mbp','incdb']},{id:'pull',n:3,lo:8,hi:12,r:90,c:1,alt:['pull2','pu']},{id:'row',n:3,lo:8,hi:12,r:90,c:1,alt:['crow','urow']},{id:'sp',n:3,lo:8,hi:12,r:90,alt:['msp']},{id:'lat',n:3,lo:12,hi:20,r:60,alt:['latc']},{id:'tdn',n:3,lo:10,hi:15,r:60,alt:['tri','utdn']},{id:'ham',n:3,lo:10,hi:15,r:60,o:1,alt:['curl','prc']}],
- [{id:'sq',n:3,lo:8,hi:12,r:120,c:1,alt:['smsq','hack']},{id:'rdl',n:3,lo:8,hi:12,r:90,c:1,alt:['sdl']},{id:'lp',n:3,lo:10,hi:15,r:90,c:1,alt:[]},{id:'ext',n:3,lo:12,hi:15,r:60,alt:[]},{id:'lcurl',n:3,lo:10,hi:15,r:60,alt:[]},{id:'calf',n:4,lo:10,hi:15,r:60,alt:['scalf']},{id:'abs',n:3,lo:10,hi:15,r:60,o:1,alt:['hang']}],
- [{id:'incdb',n:3,lo:8,hi:12,r:90,c:1,alt:['mbp','bp']},{id:'row',n:3,lo:8,hi:12,r:90,c:1,alt:['crow','urow']},{id:'pull2',n:3,lo:8,hi:12,r:90,c:1,alt:['pull','pu']},{id:'msp',n:3,lo:8,hi:12,r:90,alt:['sp']},{id:'rear',n:3,lo:12,hi:20,r:60,alt:['rfly']},{id:'tri',n:2,lo:10,hi:15,r:60,alt:['tdn','utdn']},{id:'curl',n:2,lo:10,hi:15,r:60,o:1,alt:['ham','prc']},{id:'pec',n:2,lo:12,hi:15,r:60,o:1,alt:['fly']}]
+ [{id:'bp',n:4,lo:8,hi:12,r:90,c:1,alt:['mbp','incdb']},{id:'pull',n:4,lo:8,hi:12,r:90,c:1,alt:['pull2','pu']},{id:'row',n:4,lo:8,hi:12,r:90,c:1,alt:['crow','urow']},{id:'sp',n:4,lo:8,hi:12,r:90,alt:['msp']},{id:'lat',n:4,lo:12,hi:20,r:60,alt:['latc']},{id:'tdn',n:4,lo:10,hi:15,r:60,alt:['tri','utdn']},{id:'ham',n:4,lo:10,hi:15,r:60,o:1,alt:['curl','prc']}],
+ [{id:'sq',n:4,lo:8,hi:12,r:120,c:1,alt:['smsq','hack']},{id:'rdl',n:4,lo:8,hi:12,r:90,c:1,alt:['sdl']},{id:'lp',n:4,lo:10,hi:15,r:90,c:1,alt:[]},{id:'ext',n:4,lo:12,hi:15,r:60,alt:[]},{id:'lcurl',n:4,lo:10,hi:15,r:60,alt:[]},{id:'calf',n:4,lo:10,hi:15,r:60,alt:['scalf']},{id:'abs',n:4,lo:10,hi:15,r:60,o:1,alt:['hang']}],
+ [{id:'incdb',n:4,lo:8,hi:12,r:90,c:1,alt:['mbp','bp']},{id:'row',n:4,lo:8,hi:12,r:90,c:1,alt:['crow','urow']},{id:'pull2',n:4,lo:8,hi:12,r:90,c:1,alt:['pull','pu']},{id:'msp',n:4,lo:8,hi:12,r:90,alt:['sp']},{id:'rear',n:4,lo:12,hi:20,r:60,alt:['rfly']},{id:'tri',n:4,lo:10,hi:15,r:60,alt:['tdn','utdn']},{id:'curl',n:4,lo:10,hi:15,r:60,o:1,alt:['ham','prc']},{id:'pec',n:4,lo:12,hi:15,r:60,o:1,alt:['fly']}]
 ];
 const GWK=['Adaptação. 1 série a menos e 3 repetições de reserva. Aprenda os movimentos e descubra suas cargas.','Adaptação. Mesmas séries reduzidas. Se sobrou muito, suba a carga.','Séries completas. Compostos a 1 a 3 repetições da falha e isoladores a 0 a 1.','Séries completas. Suba a carga quando fechar o topo das repetições em todas as séries.','Séries completas. Tente bater as cargas da semana anterior.','Séries completas. Mantenha a técnica limpa, descendo em 2 a 3 segundos.','Última semana pesada. Dê o máximo com técnica boa.','Semana leve. Metade das séries com carga 10% menor. Depois, compare medidas e fotos.'];
 let trM='run';
@@ -1636,7 +1636,7 @@ const gyF=n=>String(Math.round(n*10)/10).replace('.',',');
 function gyWeek(){return Math.max(0,Math.floor(trDiff(S.gy.start,today())/7))}
 function gyDays(w){const o=w!=null&&S.gy&&S.gy.ov&&S.gy.ov[w];if(Array.isArray(o)&&o.length===3&&o.every(d=>d>=-1&&d<=4))return o;return (S.gy?S.gy.days:[0,2,4]).slice().sort((a,b)=>a-b)}
 function gyDone(w){return [0,1,2].filter(i=>S.gy.logs[gyKey(w,i)]).length}
-function gyNs(n,p){return p<2?Math.max(2,n-1):p===7?Math.max(2,Math.ceil(n/2)):n}
+function gyNs(n,p){return p<2?Math.max(3,n-1):p===7?Math.max(2,Math.ceil(n/2)):n}
 function gySub(slot){return (S.gy.sub&&S.gy.sub[slot]&&GX[S.gy.sub[slot]])?S.gy.sub[slot]:slot}
 function gyMig(){const g=S.gy;if(!g||g.mig)return;g.mig=1;g.sub=g.sub||{};Object.keys(g.logs||{}).forEach(k=>{const l=g.logs[k],m=/^\d+g(\d)$/.exec(k);if(!l||!l.sets||!m)return;const pl=GPLAN[+m[1]];if(!pl)return;Object.keys(l.sets).forEach(id=>{const e=pl.find(q=>q.id!==id&&q.alt&&q.alt.indexOf(id)>=0);if(e&&!l.sets[e.id]&&g.sub[e.id]===undefined)g.sub[e.id]=id})})}
 function gyItems(w,i,short){
