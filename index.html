@@ -654,6 +654,27 @@ body.sp-un #app,body.sp-un nav{animation:spUnb .75s ease-out}@keyframes spUnb{fr
 .exe{display:flex;flex-direction:column;gap:6px;margin-top:4px}.exe b{color:var(--ink)}
 .gcard{grid-template-columns:minmax(0,1fr)}.gcard>*{min-width:0}
 .gfull .gname{font-size:clamp(26px,8.4vw,40px);overflow-wrap:anywhere;hyphens:auto}
+/* v67 editor + config */
+button.avatar.gear{display:inline-flex;align-items:center;justify-content:center;background:var(--surface2);color:var(--ink);border-radius:50%;width:36px;height:36px}
+.hd-b{display:flex;gap:8px;align-items:center}
+.cfg .lk-t{font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 8px}
+.cfg .lk-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
+.cfg .lk-th{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 6px;border:1.5px solid var(--line2);border-radius:14px;background:transparent;color:var(--ink);font:600 12.5px var(--f-body,system-ui);cursor:pointer}
+.cfg .lk-th i{width:34px;height:34px;border-radius:50%;display:block}.cfg .lk-th.on{border-color:var(--ink);background:var(--surface2)}
+.cfg .lk-sp{grid-template-columns:1fr 1fr}.cfg .lk-s{padding:14px 6px}
+.stp{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.stp .stl{flex:1;font-size:14px;color:var(--muted);font-weight:600}
+.stp b{min-width:46px;text-align:center;color:var(--ink);font-size:17px}
+.stb{border:1.5px solid var(--line2);background:var(--surface2);color:var(--ink);width:40px;height:40px;border-radius:12px;font-size:20px;line-height:1;cursor:pointer;flex:none;padding:0}
+.stb:disabled{opacity:.3}
+.exr{border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;background:var(--surface)}
+.exh{display:flex;align-items:center;gap:6px;margin-bottom:4px}.exh b{flex:1;min-width:0;overflow-wrap:anywhere;color:var(--ink)}
+.exm{display:flex;gap:6px;flex:none}
+.gor{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.gor span{flex:1;min-width:0;overflow-wrap:anywhere;color:var(--ink);font-weight:600}
+.cfg .card{margin-bottom:12px}
+.btn.o{color:var(--ink)}
+.stsw{width:auto;padding:0 10px;font-size:12px}
+.swp{margin:8px 0;padding:10px;border:1px solid var(--line);border-radius:12px}.swp .row{margin:8px 0 6px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -860,7 +881,7 @@ function gauge(h,reps){
 }
 const sci=html=>'<div class="card flat"><details class="sci"><summary>'+ic('flask')+'Base científica</summary><div>'+html+'</div></details></div>';
 function head(sub,title){
-  return '<header class="hd"><div><div class="sub">'+sub+'</div><h1>'+title+'</h1></div><div class="hd-r"><button type="button" class="avatar" data-vis="look" aria-label="Aparência">'+LOGO(28)+'</button><span class="sv" id="st"></span></div></header>';
+  return '<header class="hd"><div><div class="sub">'+sub+'</div><h1>'+title+'</h1></div><div class="hd-r"><span class="hd-b"><button type="button" class="avatar gear" data-act="cfgOpen" aria-label="Configurações"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button><button type="button" class="avatar" data-vis="look" aria-label="Aparência">'+LOGO(28)+'</button></span><span class="sv" id="st"></span></div></header>';
 }
 function weekStrip(){
   const mon=monday(today()),t=today(),L=['S','T','Q','Q','S','S','D'];let s='';
@@ -1024,7 +1045,7 @@ function vHoje0(){
   if(S.run||S.gy)h+=vHojeTreino()+vRevHoje()+vEvoLink();
   if(S.water)h+=vAguaTop();
   h+=fold('lembr','Lembretes no celular',lemFold());
-  h+=fold('dados','Backup dos dados','<div class="card"><div class="sec"><h3>'+ic('flask')+'Backup dos dados</h3></div><div class="small muted">Seus dados ficam só neste app. Se você abrir o app exportado ou em outro aparelho, ele começa vazio. Baixe o backup aqui e restaure lá.</div><div class="row"><button class="btn p grow" type="button" data-act="bkDown">Baixar backup</button><button class="btn s grow" type="button" data-act="backup">Copiar</button></div><div class="small muted">Para análise: o resumo é um texto curto e legível (hábitos, água, academia, medidas). Melhor que o backup bruto para colar numa conversa.</div><div class="row"><button class="btn p grow" type="button" data-act="resumo">Copiar resumo para o Claude</button><button class="btn s grow" type="button" data-act="resumoDown">Baixar resumo</button></div><div class="small muted" id="bk-msg"></div><textarea id="bk-out" rows="5" readonly hidden></textarea><label>Restaurar: escolha o arquivo<input id="rs-file" type="file" accept=".json,application/json"></label><label>ou cole o backup aqui<textarea id="rs-text" rows="4" placeholder="Cole o texto do backup"></textarea></label><div class="small bad" id="rs-err" role="alert"></div><button class="btn d" type="button" data-act="bkRestore">Restaurar (substitui os dados atuais)</button></div>');
+  h+=fold('dados','Backup dos dados',bkCard());
   return h;
 }
 
@@ -1709,15 +1730,98 @@ function gyDone(w){return [0,1,2,3,4].filter(i=>S.gy.logs[gyKey(w,i)]).length}
 function gyNs(n,p){return n}
 function gySub(slot){return (S.gy.sub&&S.gy.sub[slot]&&GX[S.gy.sub[slot]])?S.gy.sub[slot]:slot}
 function gyMig(){const g=S.gy;if(g&&g.pv!==57){g.pv=57;g.mig=1;const o=g.sub||{},n={};Object.keys(o).forEach(k=>{GPLAN.forEach(pl=>pl.forEach(e=>{if(e.id===k&&e.alt.indexOf(o[k])>=0)n[k]=o[k]}))});g.sub=n}if(!g||g.mig)return;g.mig=1;g.sub=g.sub||{};Object.keys(g.logs||{}).forEach(k=>{const l=g.logs[k],m=/^\d+g(\d)$/.exec(k);if(!l||!l.sets||!m)return;const pl=GPLAN[+m[1]];if(!pl)return;Object.keys(l.sets).forEach(id=>{const e=pl.find(q=>q.id!==id&&q.alt&&q.alt.indexOf(id)>=0);if(e&&!l.sets[e.id]&&g.sub[e.id]===undefined)g.sub[e.id]=id})})}
+
+let gySw=-1,gyEd=null,cfgOn=false,gyRst=0,gyEdI=0;
+function gyPlan(i){const c=S.gy&&S.gy.cus&&S.gy.cus[i];if(Array.isArray(c)){const v=c.filter(e=>e&&GX[e.id]);if(v.length)return v.length===c.length?c:v}return GPLAN[i]}
+function gyOrd(){const o=S.gy&&S.gy.ord;if(Array.isArray(o)&&o.length===5&&[0,1,2,3,4].every(k=>o.indexOf(k)>=0))return o;return [0,1,2,3,4]}
+function gyNm(i){const n=S.gy&&S.gy.nm&&S.gy.nm[i];return n?esc(n):GNOME[i]}
+function gyEdP(i){if(!S.gy.cus)S.gy.cus={};if(!Array.isArray(S.gy.cus[i]))S.gy.cus[i]=JSON.parse(JSON.stringify(gyPlan(i)));return S.gy.cus[i]}
+const clp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function stp(l,v,key,f){return '<div class="stp"><span class="stl">'+l+'</span><button type="button" class="stb" data-act="gyEdN" data-id="'+key+'|'+f+'|-1" aria-label="Diminuir '+l+'">−</button><b>'+v+'</b><button type="button" class="stb" data-act="gyEdN" data-id="'+key+'|'+f+'|1" aria-label="Aumentar '+l+'">+</button></div>'}
+function swPanel(pl,j){const have={};pl.forEach(e=>{have[e.id]=1});const o=Object.keys(GX).filter(k=>!have[k]).sort((a,b)=>GX[a].n<GX[b].n?-1:1).map(k=>'<option value="'+k+'">'+esc(GX[k].n)+'</option>').join('');
+  return '<div class="swp"><label>Trocar por<select id="ged-sw">'+o+'</select></label><div class="row"><button type="button" class="btn p grow" data-act="gySw" data-id="'+j+'">Trocar exercício</button><button type="button" class="btn o grow" data-act="gySwOpen" data-id="-1">Cancelar</button></div><div class="small muted">Mantém séries, repetições e descanso.</div></div>'}
+function vGyEd(){
+  const g=S.gy,i=gyEd,ord=gyOrd();
+  let h=head('Editar treinos','Treino');
+  h+='<button type="button" class="btn p w full" style="margin-bottom:12px" data-act="gyEdClose">Concluir edição</button>';
+  if(g.gs){return h+'<div class="note warn">'+ic('flag')+'<div><span>Há um treino guiado em andamento. Termine ou cancele esse treino antes de editar o plano.</span></div></div>'}
+  const pl=gyPlan(i);
+  h+='<div class="card"><div class="sec"><h3>'+ic('treino')+'Ordem da sequência</h3></div><div class="small muted">O app sugere o próximo treino nesta ordem. Você sempre pode escolher outro treino no dia.</div>'+ord.map((k,p)=>'<div class="gor"><b class="bd">'+GLET[k]+'</b><span>'+gyNm(k)+'</span><button type="button" class="stb" data-act="gyMv" data-id="'+p+'|-1"'+(p===0?' disabled':'')+' aria-label="Subir">↑</button><button type="button" class="stb" data-act="gyMv" data-id="'+p+'|1"'+(p===4?' disabled':'')+' aria-label="Descer">↓</button></div>').join('')+'</div>';
+  h+='<div class="chips" style="margin:4px 0 10px">'+ord.map(k=>'<button type="button" class="chip'+(k===i?' on':'')+'" data-act="gyEdSel" data-id="'+k+'">'+GLET[k]+'</button>').join('')+'</div>';
+  h+='<div class="card"><div class="sec"><h3>Treino '+GLET[i]+'</h3></div><label>Nome<input id="ged-nm" type="text" maxlength="40" value="'+(g.nm&&g.nm[i]?esc(g.nm[i]):esc(GNOME[i]))+'"></label><button type="button" class="btn s w full" data-act="gyEdNm">Salvar nome</button></div>';
+  h+=pl.map((e,j)=>{const x=GX[e.id],r=e.r|0,rt=Math.floor(r/60)+':'+String(r%60).padStart(2,'0');
+    return '<div class="exr"><div class="exh"><b>'+esc(x.n)+'</b><span class="exm"><button type="button" class="stb stsw" data-act="gySwOpen" data-id="'+j+'">Trocar</button><button type="button" class="stb" data-act="gyEdMv" data-id="'+j+'|-1"'+(j===0?' disabled':'')+' aria-label="Subir">↑</button><button type="button" class="stb" data-act="gyEdMv" data-id="'+j+'|1"'+(j===pl.length-1?' disabled':'')+' aria-label="Descer">↓</button><button type="button" class="stb" data-act="gyEdDel" data-id="'+j+'"'+(pl.length<=1?' disabled':'')+' aria-label="Remover">×</button></span></div>'+
+      (gySw===j?swPanel(pl,j):'')+stp('Séries',e.n,j,'n')+stp('Repetições (mín)',e.lo,j,'lo')+stp('Repetições (máx)',e.hi,j,'hi')+stp('Descanso',rt,j,'r')+
+      '<label class="lk-r"><span>Só no treino completo</span><input type="checkbox" data-act="gyEdO" data-id="'+j+'"'+(e.o?' checked':'')+'></label></div>'}).join('');
+  const have={};pl.forEach(e=>{have[e.id]=1});
+  const opts=Object.keys(GX).filter(k=>!have[k]).sort((a,b)=>GX[a].n<GX[b].n?-1:1).map(k=>'<option value="'+k+'">'+esc(GX[k].n)+'</option>').join('');
+  h+='<div class="card"><div class="sec"><h3>Adicionar exercício</h3></div>'+(opts?'<label>Exercício<select id="ged-add">'+opts+'</select></label><button type="button" class="btn s w full" data-act="gyAdd">Adicionar ao treino '+GLET[i]+'</button>':'<div class="small muted">Todos os exercícios já estão neste treino.</div>')+'</div>';
+  h+='<div class="card"><div class="sec"><h3>Plano do professor</h3></div><div class="small muted">Volta séries, repetições, descanso, exercícios, nomes e ordem para o plano original. As cargas registradas continuam salvas.</div><button type="button" class="btn d w full" data-act="gyEdRst">'+(gyRst?'Toque de novo para confirmar':'Restaurar plano do professor')+'</button></div>';
+  return h;
+}
+function ceAct(a,id,b){
+  const g=S.gy;
+  if(a==='cfgOpen'){cfgOn=true;gyEd=null;render(false);window.scrollTo(0,0);return true}
+  if(a==='cfgClose'){cfgOn=false;render(false);window.scrollTo(0,0);return true}
+  if(a==='gyEdOpen'){if(!g)return true;cfgOn=false;tab='treino';trM='gym';gyEd=gyOrd()[0];gyRst=0;render(true);window.scrollTo(0,0);return true}
+  if(a==='gyEdClose'){gySw=-1;gyEd=null;gyRst=0;render(false);window.scrollTo(0,0);return true}
+  if(a==='cfgShort'){UI.short=!UI.short;uiSave();gyShort=!!UI.short;render(false);return true}
+  if(a==='cfgW'&&S.water){const q=id.split('|'),d=+q[1];if(q[0]==='goal')S.water.goal=clp((S.water.goal||2000)+250*d,500,8000);else S.water.bottle=clp((S.water.bottle||500)+50*d,100,1500);try{wSync()}catch(e){}commit();return true}
+  if(!g)return false;
+  if(a==='cfgRx'){g.rx=clp((g.rx|0)+15*(+id),-60,120);commit();return true}
+  if(a==='gySwOpen'){gySw=(+id===gySw)?-1:+id;render(false);return true}
+  if(a==='gySw'&&!g.gs){const el=document.getElementById('ged-sw'),k=el&&el.value,pl=gyEdP(gyEd),e=pl[+id];if(!k||!GX[k]||!e||pl.some(q=>q.id===k))return true;e.id=k;e.alt=[];gySw=-1;commit();toast('Exercício trocado.');return true}
+  if(a==='gyEdSel'){gySw=-1;gyEd=+id;gyRst=0;render(false);return true}
+  if(a==='gyMv'){const q=id.split('|').map(Number),o=gyOrd().slice(),t=q[0]+q[1];if(t<0||t>4)return true;const x=o[q[0]];o[q[0]]=o[t];o[t]=x;g.ord=o;gyRst=0;commit();return true}
+  if(a==='gyEdNm'){const el=document.getElementById('ged-nm'),v=el?el.value.trim().slice(0,40):'';if(!g.nm)g.nm={};if(v&&v!==GNOME[gyEd])g.nm[gyEd]=v;else delete g.nm[gyEd];commit();toast('Nome salvo.');return true}
+  if(a==='gyEdRst'){if(!gyRst){gyRst=1;render(false);return true}delete g.cus;delete g.ord;delete g.nm;gyRst=0;commit();toast('Plano do professor restaurado.');return true}
+  if(g.gs||gyEd==null)return false;
+  if(a==='gyEdN'){const q=id.split('|'),pl=gyEdP(gyEd),e=pl[+q[0]],f=q[1],d=+q[2];if(!e)return true;
+    if(f==='n')e.n=clp(e.n+d,1,10);else if(f==='lo'){e.lo=clp(e.lo+d,1,40);if(e.hi<e.lo)e.hi=e.lo}else if(f==='hi'){e.hi=clp(e.hi+d,1,50);if(e.lo>e.hi)e.lo=e.hi}else if(f==='r')e.r=clp((e.r|0)+15*d,0,300);
+    gyRst=0;commit();return true}
+  if(a==='gyEdMv'){const q=id.split('|').map(Number),pl=gyEdP(gyEd),t=q[0]+q[1];if(t<0||t>=pl.length)return true;const x=pl[q[0]];pl[q[0]]=pl[t];pl[t]=x;commit();return true}
+  if(a==='gyEdDel'){const pl=gyEdP(gyEd);if(pl.length<=1){toast('O treino precisa de pelo menos 1 exercício.');return true}pl.splice(+id,1);commit();return true}
+  if(a==='gyEdO'){const e=gyEdP(gyEd)[+id];if(e){if(e.o)delete e.o;else e.o=1}commit();return true}
+  if(a==='gyAdd'){const el=document.getElementById('ged-add'),k=el&&el.value,pl=gyEdP(gyEd);if(!k||!GX[k]||pl.some(e=>e.id===k))return true;pl.push({id:k,n:3,lo:8,hi:12,r:90,alt:[]});commit();toast('Exercício adicionado.');return true}
+  return false;
+}
+function cfgLook(){
+  return '<div class="lk-t">Tema</div><div class="lk-g">'+THEMES.map(t=>'<button type="button" class="lk-th'+(UI.theme===t[0]?' on':'')+'" data-vis="theme" data-id="'+t[0]+'"><i style="background:'+t[3]+';box-shadow:inset 0 0 0 3px '+t[2]+'"></i><span>'+t[1]+'</span></button>').join('')+'</div>'+
+   '<div class="lk-t">Abertura do app</div><div class="lk-g lk-sp">'+[['full','Completa'],['count','Contagem 3·2·1'],['pro','Profissional'],['fast','Rápida'],['off','Desligada']].map(r=>'<button type="button" class="lk-th lk-s'+((UI.splashStyle||'full')===r[0]&&UI.splash!==false||(r[0]==='off'&&UI.splash===false)?' on':'')+'" data-vis="spst" data-id="'+r[0]+'"><span>'+r[1]+'</span></button>').join('')+'</div><button type="button" class="btn o w full" style="margin-top:10px" data-vis="sptest">Ver a abertura agora</button>';
+}
+function cfgRows(a){return a.map(r=>'<label class="lk-r"><span>'+r[1]+'</span><input type="checkbox" data-vis="opt" data-id="'+r[0]+'"'+(UI[r[0]]!==false?' checked':'')+'></label>').join('')}
+function vCfg(){
+  const g=S.gy,w=S.water;
+  let h=head('Configurações','Ajustes')+'<button type="button" class="btn o w full" style="margin-bottom:12px" data-act="cfgClose">Voltar ao app</button><div class="cfg">';
+  h+='<div class="card"><div class="sec"><h3>Aparência</h3></div>'+cfgLook()+'<div class="lk-t">Sensação</div>'+cfgRows([['confetti','Confete ao concluir'],['vib','Vibração ao tocar e no fim do descanso'],['sound','Som na abertura']])+'</div>';
+  h+='<div class="card"><div class="sec"><h3>'+ic('treino')+'Treino</h3></div>';
+  if(g){
+    h+='<div class="small muted">Edite séries, repetições, descanso, exercícios, nomes e a ordem dos treinos.</div><button type="button" class="btn p w full" style="margin:8px 0" data-act="gyEdOpen">Editar treinos e ordem</button>';
+    h+='<div class="stp"><span class="stl">Descanso extra em todas as séries</span><button type="button" class="stb" data-act="cfgRx" data-id="-1" aria-label="Diminuir">−</button><b>'+((g.rx|0)>0?'+':'')+(g.rx|0)+' s</b><button type="button" class="stb" data-act="cfgRx" data-id="1" aria-label="Aumentar">+</button></div>';
+    h+='<div class="lk-t">Lado mais fraco (começa a série)</div><div class="chips"><button type="button" class="chip'+(g.weak==='e'?' on':'')+'" data-act="gyWeak" data-id="e">Esquerdo</button><button type="button" class="chip'+(g.weak==='d'?' on':'')+'" data-act="gyWeak" data-id="d">Direito</button></div>';
+  }else h+='<div class="small muted">Comece a academia na aba Treino para ajustar o plano.</div>';
+  h+='<label class="lk-r"><span>Abrir treinos no modo curto</span><input type="checkbox" data-act="cfgShort"'+(UI.short?' checked':'')+'></label>'+cfgRows([['wake','Manter a tela ligada no treino guiado']])+'</div>';
+  h+='<div class="card"><div class="sec"><h3>Água</h3></div>';
+  if(w){
+    h+='<div class="stp"><span class="stl">Meta por dia (ml)</span><button type="button" class="stb" data-act="cfgW" data-id="goal|-1" aria-label="Diminuir">−</button><b>'+w.goal+'</b><button type="button" class="stb" data-act="cfgW" data-id="goal|1" aria-label="Aumentar">+</button></div>';
+    h+='<div class="stp"><span class="stl">Tamanho da garrafa (ml)</span><button type="button" class="stb" data-act="cfgW" data-id="bottle|-1" aria-label="Diminuir">−</button><b>'+(w.bottle||500)+'</b><button type="button" class="stb" data-act="cfgW" data-id="bottle|1" aria-label="Aumentar">+</button></div>';
+  }else h+='<div class="small muted">Configure a água na aba Hábitos para ajustar meta e garrafa aqui.</div>';
+  h+='</div>';
+  h+='<div class="card"><div class="sec"><h3>Lembretes</h3></div>'+lemFold()+'</div>';
+  h+=bkCard();
+  h+='<div class="card"><div class="sec"><h3>Sobre</h3></div><div class="small muted">Até o Fim · versão 67. Seus dados ficam neste aparelho. Use o backup acima antes de trocar de celular ou de navegador.</div></div></div>';
+  return h;
+}
+function bkCard(){return '<div class="card"><div class="sec"><h3>'+ic('flask')+'Backup dos dados</h3></div><div class="small muted">Seus dados ficam só neste app. Se você abrir o app exportado ou em outro aparelho, ele começa vazio. Baixe o backup aqui e restaure lá.</div><div class="row"><button class="btn p grow" type="button" data-act="bkDown">Baixar backup</button><button class="btn s grow" type="button" data-act="backup">Copiar</button></div><div class="small muted">Para análise: o resumo é um texto curto e legível (hábitos, água, academia, medidas). Melhor que o backup bruto para colar numa conversa.</div><div class="row"><button class="btn p grow" type="button" data-act="resumo">Copiar resumo para o Claude</button><button class="btn s grow" type="button" data-act="resumoDown">Baixar resumo</button></div><div class="small muted" id="bk-msg"></div><textarea id="bk-out" rows="5" readonly hidden></textarea><label>Restaurar: escolha o arquivo<input id="rs-file" type="file" accept=".json,application/json"></label><label>ou cole o backup aqui<textarea id="rs-text" rows="4" placeholder="Cole o texto do backup"></textarea></label><div class="small bad" id="rs-err" role="alert"></div><button class="btn d" type="button" data-act="bkRestore">Restaurar (substitui os dados atuais)</button></div>'}
 function gyItems(w,i,short){
   gyMig();const p=w%8;
-  const its=GPLAN[i].filter(e=>!(short&&e.o)).map(e=>{const id=gySub(e.id),n0=gyNs(e.n,p),n=short?Math.max(2,n0-1):n0,u=!!GX[id].u;return {slot:e.id,id:id,alt:e.alt,n:n,lo:e.lo,hi:e.hi,r:e.r,c:!!e.c,u:u,xw:0}});
+  const its=gyPlan(i).filter(e=>!(short&&e.o)).map(e=>{const id=gySub(e.id),n0=gyNs(e.n,p),n=short?Math.max(2,n0-1):n0,u=!!GX[id].u;return {slot:e.id,id:id,alt:e.alt,n:n,lo:e.lo,hi:e.hi,r:Math.max(0,e.r+((S.gy.rx|0))),c:!!e.c,u:u,xw:0}});
   if(p>=2&&p<7){const cd=its.filter(x=>x.u).map(x=>({x:x,a:gyAsym(x.id)})).filter(o=>o.a!==null&&o.a>=10).sort((m,n)=>n.a-m.a).slice(0,2);cd.forEach(o=>{o.x.n+=1;o.x.xw=1})}
   its.forEach(x=>{x.dose=x.n+' × '+x.lo+(x.hi!==x.lo?'-'+x.hi:'')+(x.u?' por lado':'')});
   return its;
 }
 function gyMin(its){return 8+Math.round(its.reduce((a,x)=>a+x.n*(x.r/60+(x.u?1.8:0.9)),0))}
-function gyNext(w){for(let i=0;i<5;i++)if(!S.gy.logs[gyKey(w,i)])return i;return -1}
+function gyNext(w){const o=gyOrd();for(let k=0;k<5;k++)if(!S.gy.logs[gyKey(w,o[k])])return o[k];return -1}
 function gyToday(){
   if(!S.gy)return null;const t=today();if(t<S.gy.start)return null;const w=gyWeek(),wd=(parse(t).getDay()+6)%7;
   if(wd>4)return null;
@@ -1726,7 +1830,7 @@ function gyToday(){
 }
 function vHojeGy(){
   const c=gyToday();if(!c)return '';const its=gyItems(c.w,c.i,false);
-  return '<div class="card"><div class="sec"><h3>'+ic('treino')+'Academia de hoje</h3><span class="small muted">semana '+(c.w+1)+'</span></div><div class="small"><b style="color:var(--ink)">'+GNOME[c.i]+'</b> · '+its.length+' exercícios · ~'+gyMin(its)+' min</div><div class="small muted">Próximo da sequência. Pode escolher outro abaixo.</div>'+(S.gy.gs&&S.gy.gs.key===gyKey(c.w,c.i)?'<button class="btn p" type="button" data-act="gyCont2">Continuar treino guiado</button>':'<button class="btn p" type="button" data-act="gyStart2" data-id="'+gyKey(c.w,c.i)+'">Iniciar treino guiado</button>')+'<button class="btn o" type="button" data-act="gyGo" data-id="'+gyKey(c.w,c.i)+'">Ver treino</button>'+(function(){const oth=[0,1,2,3,4].filter(i=>i!==c.i&&!S.gy.logs[gyKey(c.w,i)]);return oth.length?'<div class="small muted" style="margin-top:8px">Ou escolha outro treino hoje:</div><div class="chips">'+oth.map(i=>'<button type="button" class="chip" data-act="gyStart2" data-id="'+gyKey(c.w,i)+'">'+GNOME[i]+'</button>').join('')+'</div>':''})()+'</div>';
+  return '<div class="card"><div class="sec"><h3>'+ic('treino')+'Academia de hoje</h3><span class="small muted">semana '+(c.w+1)+'</span></div><div class="small"><b style="color:var(--ink)">'+gyNm(c.i)+'</b> · '+its.length+' exercícios · ~'+gyMin(its)+' min</div><div class="small muted">Próximo da sequência. Pode escolher outro abaixo.</div>'+(S.gy.gs&&S.gy.gs.key===gyKey(c.w,c.i)?'<button class="btn p" type="button" data-act="gyCont2">Continuar treino guiado</button>':'<button class="btn p" type="button" data-act="gyStart2" data-id="'+gyKey(c.w,c.i)+'">Iniciar treino guiado</button>')+'<button class="btn o" type="button" data-act="gyGo" data-id="'+gyKey(c.w,c.i)+'">Ver treino</button>'+(function(){const oth=gyOrd().filter(i=>i!==c.i&&!S.gy.logs[gyKey(c.w,i)]);return oth.length?'<div class="small muted" style="margin-top:8px">Ou escolha outro treino hoje:</div><div class="chips">'+oth.map(i=>'<button type="button" class="chip" data-act="gyStart2" data-id="'+gyKey(c.w,i)+'">'+gyNm(i)+'</button>').join('')+'</div>':''})()+'</div>';
 }
 function trSw(){
   return '<div class="chips" style="margin-bottom:10px"><button type="button" class="chip'+(trM==='gym'?' on':'')+'" data-act="trMode" data-id="gym">Academia</button><button type="button" class="chip'+(trM==='body'?' on':'')+'" data-act="trMode" data-id="body">Corpo</button><button type="button" class="chip'+(trM==='diet'?' on':'')+'" data-act="trMode" data-id="diet">Dieta</button><button type="button" class="chip'+(trM==='prog'?' on':'')+'" data-act="trMode" data-id="prog">Evolução</button></div>';
@@ -1787,7 +1891,7 @@ function gyVol(l){let v=0;if(l&&l.sets)Object.keys(l.sets).forEach(id=>l.sets[id
 function gyReForm(w){
   const cur=gyDays(w),ov=!!(S.gy.ov&&S.gy.ov[w]);
   return '<form class="card" data-form="gyre" novalidate><input type="hidden" id="gre-w" value="'+w+'"><div class="sec"><h3>'+ic('treino')+'Remarcar a semana '+(w+1)+'</h3></div><div class="small muted">Escolha o dia de cada treino, de segunda a sexta, ou pule o treino nesta semana. Só vale para esta semana.</div>'+
-   [0,1,2,3,4].map(i=>'<label>'+GLET[i]+' · '+GNOME[i]+'<select id="gre-'+i+'">'+dnames.slice(0,5).map((nm,d)=>'<option value="'+d+'"'+(cur[i]===d?' selected':'')+'>'+nm+'</option>').join('')+'<option value="-1"'+(cur[i]<0?' selected':'')+'>Pular nesta semana</option></select></label>').join('')+
+   [0,1,2,3,4].map(i=>'<label>'+GLET[i]+' · '+gyNm(i)+'<select id="gre-'+i+'">'+dnames.slice(0,5).map((nm,d)=>'<option value="'+d+'"'+(cur[i]===d?' selected':'')+'>'+nm+'</option>').join('')+'<option value="-1"'+(cur[i]<0?' selected':'')+'>Pular nesta semana</option></select></label>').join('')+
    '<div class="small bad" id="gre-err" role="alert"></div><button class="btn p" type="submit">Salvar semana</button>'+(ov?'<button type="button" class="btn o" data-act="gyReOff" data-id="'+w+'">Voltar ao padrão</button>':'')+'</form>';
 }
 function gyDaysForm(){
@@ -1800,10 +1904,10 @@ function gyDaysForm(){
    '<div class="small bad" id="gyd-err" role="alert"></div><button class="btn p" type="submit"'+(n===3?'':' disabled')+'>Salvar dias</button></form>';
 }
 function gyWorkout(w,i){
-  const key=gyKey(w,i),lg=S.gy.logs[key],o=gyO===key,ws=addDays(S.gy.start,w*7),dd=gyDays(w)[i],date=dd>=0?addDays(ws,dd):null,t=today();
+  const key=gyKey(w,i),lg=S.gy.logs[key],o=gyO===key,ws=addDays(S.gy.start,w*7),dd=gyDays(w)[gyOrd().indexOf(i)],date=dd>=0?addDays(ws,dd):null,t=today();
   const st=lg?'<span class="tg ok">feito</span>':(w===gyWeek()&&i===gyNext(w)&&((parse(t).getDay()+6)%7)<=4?'<span class="tg now">próximo</span>':'');
   const its=gyItems(w,i,gyShort&&!lg);
-  let h='<div class="wo'+(lg?' done':'')+'"><button type="button" class="wo-h" data-act="gyOpen" data-id="'+key+'" aria-expanded="'+o+'"><b class="bd">'+(lg?ic('tick'):GLET[i])+'</b><span class="wo-t"><strong>'+GNOME[i]+'</strong><small>'+its.length+' exercícios · ~'+gyMin(its)+' min · '+(date?dnames[dd]+' '+fmtS(date):'fora desta semana')+'</small></span>'+st+'</button>';
+  let h='<div class="wo'+(lg?' done':'')+'"><button type="button" class="wo-h" data-act="gyOpen" data-id="'+key+'" aria-expanded="'+o+'"><b class="bd">'+(lg?ic('tick'):GLET[i])+'</b><span class="wo-t"><strong>'+gyNm(i)+'</strong><small>'+its.length+' exercícios · ~'+gyMin(its)+' min · '+(date?dnames[dd]+' '+fmtS(date):'fora desta semana')+'</small></span>'+st+'</button>';
   if(o){
     const gs=S.gy.gs;
     h+='<div class="wo-b"><div class="small muted">'+GFOCO[i]+'.</div><div class="blk"><b>Aquecimento (8 min)</b><p>Faça séries leves de preparação antes dos exercícios principais (por exemplo, uma com 50% e outra com 75% da carga). Elas não contam como séries de trabalho.</p></div>';
@@ -1841,6 +1945,8 @@ function gyBal(){
 }
 function vGy(){
   if(S.gy&&S.gy.gs&&gyGm)return vGuiadoGy();
+  if(!gyEdI){gyEdI=1;if(UI.short)gyShort=true}
+  if(S.gy&&gyEd!==null)return vGyEd();
   let h=head('Hipertrofia, 5 dias por semana','Treino')+trSw()+vSem();
   if(!S.gy){
     h+='<div class="card"><div class="sec"><h3>'+ic('treino')+'Academia</h3></div><div class="small muted">Treino montado pelo seu professor: 5 dias por semana, de segunda a sexta (peito, pernas, costas, pernas e braços), com descanso no sábado e no domingo. Cada série guarda carga e repetições. Faça de 8 a 12 repetições e, ao chegar no topo com boa técnica, suba a carga aos poucos.</div><button class="btn p" type="button" data-act="gyStart0">Começar a academia</button></div>';
@@ -1854,7 +1960,7 @@ function vGy(){
   h+='<div class="card"><div class="sec"><h3>'+ic('treino')+'Semana '+(w+1)+' · '+(w%8+1)+' de 8 do ciclo</h3><span class="small muted"><b style="color:var(--ink);font-family:var(--f-disp)">'+gyDone(w)+'</b> / 5</span></div><div class="bar"><i style="width:'+pct(gyDone(w)/5)+'%"></i></div><div class="small muted">'+GWK[w%8]+'</div>'+'</div>';
   const pn=[0,1,2,3,4].some(i=>{const l=S.gy.logs[gyKey(w,i)];return l&&l.pain});
   if(pn)h+='<div class="note warn">'+ic('flag')+'<div><span><b>Você registrou dor.</b> Dor de articulação ou de tendão não é para treinar em cima. Troque o exercício por outra opção ou descanse.</span></div></div>';
-  h+=[0,1,2,3,4].map(i=>gyWorkout(w,i)).join('');
+  h+=gyOrd().map(i=>gyWorkout(w,i)).join('');h+='<div class="card"><div class="small muted">Quer mudar séries, repetições, descanso, exercícios ou a ordem dos treinos?</div><button type="button" class="btn p w full" data-act="gyEdOpen">Editar treinos e ordem</button></div>';
   h+=fold('gybal','Equilíbrio esquerdo e direito',gyBal());
   h+=fold('gyrec','Meus recordes e cargas',gyRec());
   if(S.gy.cal||S.gy.calSkip)h+=fold('gycal','Calibrar as cargas',gyCalForm());
@@ -1870,7 +1976,7 @@ function vGuiadoGy(){
   const g=S.gy.gs,k=g.key.split('g'),w=+k[0],ix=+k[1],its=gyGItems(),now=Date.now();
   if(!g.fin&&!its[g.i])g.fin=1;
   const tot=its.reduce((a,x)=>a+x.n,0),dn=its.reduce((a,x)=>a+Math.min(x.n,(g.sets[x.id]||[]).length),0);
-  let h=head('Semana '+(w+1)+' · '+GNOME[ix]+(g.short?' (curto)':''),'Treino guiado')+'<div class="bar"><i style="width:'+pct(dn/tot)+'%"></i></div>';
+  let h=head('Semana '+(w+1)+' · '+gyNm(ix)+(g.short?' (curto)':''),'Treino guiado')+'<div class="bar"><i style="width:'+pct(dn/tot)+'%"></i></div>';
   if(g.fin){
     let vol=0;its.forEach(x=>(g.sets[x.id]||[]).forEach(s=>{vol+=s.k*s.r+(s.re!==undefined?s.ke*s.re:0)}));
     h+='<div class="card"><div class="sec"><h3>'+ic('tick')+'Treino completo</h3></div>';
@@ -1921,7 +2027,7 @@ function gyTick(){
   const left=+el.dataset.end-Date.now();
   if(left>0){el.textContent=fmtMS(left);return}
   S.gy.gs.rest=0;
-  try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
+  try{UI.vib!==false&&navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
   persist();render(false);
 }
 setInterval(gyTick,500);
@@ -2481,7 +2587,7 @@ function render(anim){
   document.body.classList.toggle('focusing',!!fc);
   try{if(fc&&fc.stage!=='setup')localStorage.setItem('ate-fc',JSON.stringify(fc));else localStorage.removeItem('ate-fc')}catch(e){}
   if(!{hoje:1,rotina:1,treino:1,habitos:1,meta:1,estudos:1}[tab])tab='hoje';
-  el.innerHTML=fc?vFoco():{hoje:vHoje,rotina:vRotina,treino:vTreino,estudos:vEstudos,habitos:vHabTab,meta:vMetaTab}[tab]();
+  el.innerHTML=fc?vFoco():cfgOn?vCfg():{hoje:vHoje,rotina:vRotina,treino:vTreino,estudos:vEstudos,habitos:vHabTab,meta:vMetaTab}[tab]();
   renderNav();status(stTxt);
   if(anim&&!REDUCE){
     [].forEach.call(el.children,(c,i)=>{c.style.setProperty('--i',Math.min(i,8));c.classList.add('rise')});
@@ -2523,7 +2629,7 @@ function spLogo(lv){
 }
 function spInfo(){
   const o=visToday(),t=o.t,n=stk(),hr=new Date().getHours(),g=hr<12?'Bom dia':hr<18?'Boa tarde':'Boa noite';
-  let tr='Descanso';const c1=S.run&&trToday(),c2=S.gy&&gyToday();if(c1){const x=wkInfo(c1.w,c1.i,S.run.ref);tr=x.nome}else if(c2)tr='Academia: '+GNOME[c2.i];else if(o.did)tr='Treino feito';
+  let tr='Descanso';const c1=S.run&&trToday(),c2=S.gy&&gyToday();if(c1){const x=wkInfo(c1.w,c1.i,S.run.ref);tr=x.nome}else if(c2)tr='Academia: '+gyNm(c2.i);else if(o.did)tr='Treino feito';
   const w=o.w?(wTot(o.w,t)/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})+' L de água':null;
   const y=addDays(t,-1);let ont='';
   if(S.run){const l=Object.keys(S.run.logs||{}).map(k=>S.run.logs[k]).filter(l=>l&&l.date===y&&l.km>0)[0];if(l)ont='Ontem: corrida de '+chN(l.km,2)+' km'}
@@ -2647,7 +2753,7 @@ function vRings(){
 function vNext(){
   const o=visToday(),h=new Date().getHours();let n=null;
   if(S.run&&trToday()&&h<21){const c=trToday(),x=wkInfo(c.w,c.i,S.run.ref);n={k:'Treino de hoje',t:x.nome,s:(x.k==='test'?x.kmS:x.tot+' min · '+x.kmS),b:'Abrir treino',a:'tab',v:'treino'}}
-  else if(S.gy&&gyToday()&&h<21){const c=gyToday();n={k:'Treino de hoje',t:'Academia: '+GNOME[c.i],s:'Semana '+(c.w+1),b:'Abrir treino',a:'tab',v:'treino'}}
+  else if(S.gy&&gyToday()&&h<21){const c=gyToday();n={k:'Treino de hoje',t:'Academia: '+gyNm(c.i),s:'Semana '+(c.w+1),b:'Abrir treino',a:'tab',v:'treino'}}
   if(!n){const hb=S.habits.filter(x=>!x.checks[o.t])[0];if(hb&&!(isWE(o.t)&&!o.hd))n={k:'Agora',t:hb.name,s:(o.hn-o.hd)+(o.hn-o.hd===1?' hábito pendente':' hábitos pendentes'),b:'Marcar como feito',a:'chk',id:hb.id}}
   if(!n&&o.w&&o.wf!==null&&o.wf<1){n={k:'Hidratação',t:'Beber água',s:'Faltam '+Math.round((1-o.wf)*o.w.goal)+' ml para a meta',b:'+ garrafa ('+o.w.bottle+' ml)',a:'wAdd',ml:o.w.bottle}}
   if(!n&&!o.fm&&!isWE(o.t))n={k:'Foco',t:'Uma sessão de foco',s:'25 minutos, sem celular',b:'Iniciar foco',a:'fcOpen'};
@@ -2909,7 +3015,7 @@ function visAfter(anim){
   document.body.dataset.tab=tab;
   const gf=!!(S.gy&&S.gy.gs&&gyGm&&tab==='treino');
   document.body.classList.toggle('gfull',gf);
-  if(gf&&!VD.wl){VD.wl=1;try{if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}}
+  if(gf&&!VD.wl&&UI.wake!==false){VD.wl=1;try{if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}}
   if(!gf)VD.wl=0;
   const hn=S.habits.length,all=hn>0&&S.habits.every(h=>h.checks[today()]);
   if(VD.all===undefined)VD.all=all;
@@ -2930,7 +3036,7 @@ document.addEventListener('submit',e=>{try{onSubmit(e)}catch(err){crash(err)}});
 function onClick(e){
   const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
   const a=b.dataset.act,id=b.dataset.id,t=today(),g=S.goal;
-  if(a==='tab'){let v=b.dataset.v;tab=v;abandoning=false;editingH=null;openF=null;render(true);window.scrollTo(0,0);return}
+  if(a==='tab'){let v=b.dataset.v;tab=v;cfgOn=false;abandoning=false;editingH=null;openF=null;render(true);window.scrollTo(0,0);return}
   
   
   if(a==='openF'){openF=b.dataset.v;render(false);const f=document.querySelector('[data-form="'+openF+'"]');if(f&&f.scrollIntoView)f.scrollIntoView({block:'center',behavior:REDUCE?'auto':'smooth'});return}
@@ -3069,6 +3175,7 @@ function onClick(e){
   else if(a==='gyReset'){if(!trAsk){trAsk=true;b.textContent='Toque de novo para apagar tudo';setTimeout(()=>{trAsk=false;if(b.isConnected)b.textContent='Apagar academia e registros'},4000);return}trAsk=false;S.gy=null;gyO=null;gyV=null;gyG=null;gyGm=false;commit();toast('Academia apagada.')}
   else if(a==='gyShort'){gyShort=id==='1';render(false)}
   else if(a==='gyStart'){if(S.gy)gyStart(id,gyShort)}
+  else if(ceAct(a,id,b)){}
   else if(a==='gyStart2'){if(S.gy){tab='treino';trM='gym';gyV=null;gyStart(id,false);window.scrollTo(0,0)}}
   else if(a==='gyCont'){gyGm=true;render(false);window.scrollTo(0,0)}
   else if(a==='gyCont2'){tab='treino';trM='gym';gyGm=true;render(true);window.scrollTo(0,0)}
