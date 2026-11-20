@@ -679,6 +679,7 @@ button.avatar.gear{display:inline-flex;align-items:center;justify-content:center
 .up2{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.up2 span{min-width:0;overflow-wrap:anywhere;color:var(--ink)}.up2 b{color:#3DDC97;white-space:nowrap}
 .ser{display:grid;grid-template-columns:96px minmax(0,1fr) 44px;gap:8px;align-items:center;padding:6px 0}.ser span{font-size:13px;color:var(--ink)}.ser b{text-align:right;font-size:13px;color:var(--ink)}.ser b.lo{color:#F2B84B}.ser b.hi{color:#FF6B6B}
 .serb{position:relative;height:10px;border-radius:6px;background:var(--surface2);overflow:hidden}.serb s{position:absolute;top:0;bottom:0;background:rgba(61,220,151,.22)}.serb em{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--line2)}.serb i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--ink)}
+.cxr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.cxr span{min-width:0;overflow-wrap:anywhere;color:var(--ink)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -764,7 +765,7 @@ function normalize(x){
   if(x.run&&typeof x.run==='object'&&!x.runOld)x.runOld=x.run;x.run=null;if(Array.isArray(x.habits))x.habits.forEach(h=>{if(h&&typeof h.name==='string')h.name=h.name.replace(/\((correr|corrida)\)/i,'(academia)')});if(Array.isArray(x.routine))x.routine=x.routine.filter(r=>!(r&&/roupa de corrida|voltar da corrida/i.test(r.name||''))).map(r=>{if(r&&/corrida/i.test(r.name||''))r.name=r.name.replace(/corrida/i,'academia');return r});if(x.run&&typeof x.run==='object'&&x.run.start){const r=x.run;r.ref=+r.ref||1500;if(!Array.isArray(r.days)||r.days.length!==1||r.days[0]!==5)r.days=[5];if(!r.logs||typeof r.logs!=='object')r.logs={}}else x.run=null;
   if(x.cx&&typeof x.cx==='object'&&/^\d{4}-\d\d-\d\d$/.test(x.cx.start)){if(!x.cx.logs||typeof x.cx.logs!=='object'||Array.isArray(x.cx.logs))x.cx.logs={}}else x.cx=null;
   if(x.cx){if(!x.cx.sub||typeof x.cx.sub!=='object'||Array.isArray(x.cx.sub))x.cx.sub={};const g=x.cx.gs;if(!(g&&typeof g==='object'&&/^\d+c[0-2]$/.test(g.key)&&g.reps&&typeof g.reps==='object'&&Number.isFinite(+g.i)))x.cx.gs=null}
-  if(x.gy&&typeof x.gy==='object'&&/^\d{4}-\d\d-\d\d$/.test(x.gy.start)){const y=x.gy;if(!y.logs||typeof y.logs!=='object'||Array.isArray(y.logs))y.logs={};if(!Array.isArray(y.days)||y.days.length!==5||y.days.some((d,i)=>d!==i))y.days=[0,1,2,3,4];if(!y.sub||typeof y.sub!=='object'||Array.isArray(y.sub))y.sub={};if(!y.ov||typeof y.ov!=='object'||Array.isArray(y.ov))y.ov={};if(y.weak!=='d')y.weak='e';y.calSkip=!!y.calSkip;if(!(y.cal&&typeof y.cal==='object'))y.cal=null;if(0){}if(y.pv2!==66){y.pv2=66;const wdOf=ds=>{const p=String(ds).split('-');return (new Date(+p[0],+p[1]-1,+p[2]).getDay()+6)%7},nl={};Object.keys(y.logs).forEach(k=>{const m=/^(\d+)g(\d)$/.exec(k);if(!m||!y.logs[k])return;const ni={0:0,1:1,2:4}[m[2]];if(ni!==undefined)nl[m[1]+'g'+ni]=y.logs[k]});y.logs=nl;y.ov={};y.gs=null;y.sub={};if(0)try{const sp=y.start.split('-'),n0=new Date(),a=Date.UTC(+sp[0],+sp[1]-1,+sp[2]),b=Date.UTC(n0.getFullYear(),n0.getMonth(),n0.getDate()),w0=Math.floor((b-a)/6048e5),l1=nl[w0+'g1'];if(w0>=0&&l1&&l1.date&&wdOf(l1.date)===2)y.ov[w0]=[0,2,3,-1,4]}catch(e){}}const g=y.gs;if(!(g&&typeof g==='object'&&/^\d+g[0-4]$/.test(g.key)&&g.sets&&typeof g.sets==='object'&&Number.isFinite(+g.i)))y.gs=null}else x.gy=null;
+  if(x.gy&&typeof x.gy==='object'&&/^\d{4}-\d\d-\d\d$/.test(x.gy.start)){const y=x.gy;gyCxApply(y);if(!y.logs||typeof y.logs!=='object'||Array.isArray(y.logs))y.logs={};if(!Array.isArray(y.days)||y.days.length!==5||y.days.some((d,i)=>d!==i))y.days=[0,1,2,3,4];if(!y.sub||typeof y.sub!=='object'||Array.isArray(y.sub))y.sub={};if(!y.ov||typeof y.ov!=='object'||Array.isArray(y.ov))y.ov={};if(y.weak!=='d')y.weak='e';y.calSkip=!!y.calSkip;if(!(y.cal&&typeof y.cal==='object'))y.cal=null;if(0){}if(y.pv2!==66){y.pv2=66;const wdOf=ds=>{const p=String(ds).split('-');return (new Date(+p[0],+p[1]-1,+p[2]).getDay()+6)%7},nl={};Object.keys(y.logs).forEach(k=>{const m=/^(\d+)g(\d)$/.exec(k);if(!m||!y.logs[k])return;const ni={0:0,1:1,2:4}[m[2]];if(ni!==undefined)nl[m[1]+'g'+ni]=y.logs[k]});y.logs=nl;y.ov={};y.gs=null;y.sub={};if(0)try{const sp=y.start.split('-'),n0=new Date(),a=Date.UTC(+sp[0],+sp[1]-1,+sp[2]),b=Date.UTC(n0.getFullYear(),n0.getMonth(),n0.getDate()),w0=Math.floor((b-a)/6048e5),l1=nl[w0+'g1'];if(w0>=0&&l1&&l1.date&&wdOf(l1.date)===2)y.ov[w0]=[0,2,3,-1,4]}catch(e){}}const g=y.gs;if(!(g&&typeof g==='object'&&/^\d+g[0-4]$/.test(g.key)&&g.sets&&typeof g.sets==='object'&&Number.isFinite(+g.i)))y.gs=null}else x.gy=null;
   if(!Array.isArray(x.bd))x.bd=[];
   if(x.run&&x.run.logs&&typeof x.run.logs==='object'&&x.run.bumpAt===undefined){const rl=x.run.logs,ks=Object.keys(rl).filter(k=>/[ABC]$/.test(k)&&rl[k]).sort((p,q)=>rl[p].date<rl[q].date?-1:rl[p].date>rl[q].date?1:0),l2=ks.slice(-2);x.run.bumpAt=ks.length?ks[ks.length-1]:'';if(l2.length===2&&l2.every(k=>rl[k].rpe<=3&&!rl[k].pain))x.run.bump=5}x.bd=x.bd.filter(r=>r&&typeof r==='object'&&/^\d{4}-\d\d-\d\d$/.test(r.d)).slice(-300);
   if(!x.study||typeof x.study!=='object')x.study={};['cards','log','pre'].forEach(k=>{if(!Array.isArray(x.study[k]))x.study[k]=[]});if(!x.study.cal||typeof x.study.cal!=='object')x.study.cal={};
@@ -833,7 +834,7 @@ const weekCount=mon=>{let n=0;for(let i=0;i<7;i++)n+=S.progress[addDays(mon,i)]|
 function nextMs(g){return g.ms.filter(m=>!m.done).sort((a,b)=>a.date<b.date?-1:1)[0]}
 const lastWd=t=>{let d=addDays(t,-1);while(isWE(d))d=addDays(d,-1);return d};
 const startOf=h=>{const f=S.ui&&S.ui.from;return f&&f>h.created?f:h.created};
-const isWE=d=>{const w=parse(d).getDay();return w===0||w===6};
+const isWE=d=>{const w=parse(d).getDay();return w===0||w===6||isFer(d)};
 const dayActive=d=>S.habits.some(h=>h.checks[d])||Object.keys(S.rdone[d]||{}).length>0||(S.progress[d]||0)>0||S.fsess.some(x=>x.date===d)||S.study.log.some(x=>x.date===d);
 function idleRun(){
   const t=today();if(isWE(t)||dayActive(t)||!(S.habits.length||S.goal||S.routine.length))return 0;
@@ -1005,7 +1006,7 @@ function vHoje0(){
   else if(g&&parse(t).getDay()===1)h+='<div class="note">'+ic('sparkles')+'<div><span><b>Segunda-feira é um bom dia para recomeçar.</b> Faça a primeira ação de hoje.</span></div></div>';
   {const ir=idleRun();if(ir>=2)h+='<div class="card" style="border:1.5px solid var(--bad,#C2410C)"><div class="sec"><h3>'+ic('flag')+'Hoje é o '+(ir+1)+'º dia sem nada</h3></div><div class="small" style="color:var(--ink)"><b>'+ir+' dias úteis seguidos sem registrar nenhum hábito, passo, foco ou estudo.</b> Isso é um fato, não uma desculpa. A regra que você mesmo criou é: se falhar, volta no dia seguinte. O dia seguinte é hoje.<br><br>Faça agora só a versão mínima do hábito mais fácil. Leva menos de 5 minutos.</div><div class="row"><button class="btn p grow" data-act="tab" data-v="habitos">Fazer agora</button></div></div>';}
   if(S.habits.length&&!S.ui.from&&disL().indexOf('from')<0&&S.habits.some(x=>x.created<t))h+='<div class="card"><div class="sec"><h3>'+ic('flag')+'Começar a contar</h3></div><div class="small">Os dias antes de você usar o app de verdade não devem contar contra você. Quer começar a contar a partir de hoje?</div><div class="row"><button class="btn p grow" data-act="fromToday">Contar a partir de hoje</button><button class="btn o grow" data-act="dis" data-id="from">Manter desde o início</button></div></div>';
-  if(isWE(t))h+='<div class="note">'+ic('sparkles')+'<div><span><b>Fim de semana: nada é obrigatório.</b> O que você fizer hoje conta como bônus e não entra na sua taxa.</span></div></div>';
+  if(isWE(t))h+='<div class="note">'+ic('sparkles')+'<div><span><b>'+(ferOf(t)&&![0,6].includes(parse(t).getDay())?'Feriado ('+esc(ferOf(t).n)+'): nada é obrigatório.':'Fim de semana: nada é obrigatório.')+'</b> O que você fizer hoje conta como bônus e não entra na sua taxa.</span></div></div>';
   {const hn=S.habits.length,hd=S.habits.filter(x=>x.checks[t]).length,fm=S.fsess.filter(x=>x.date===t).reduce((a,x)=>a+x.min,0),sm=S.study.log.filter(x=>x.date===t).reduce((a,x)=>a+x.min,0);
   if(0)h+='<div class="card"><div class="sec"><h3>'+ic('tick')+'Seu dia</h3><span class="small muted">'+(isWE(t)?'Opcional hoje':hn&&hd===hn?'Hábitos completos':'')+'</span></div><div class="dayr">'+ring(hn?hd/hn:0,96,10,'<b>'+hd+'/'+hn+'</b><small>hábitos</small>','l')+
     '<div class="daystat"><div><b>'+fm+'<small> min</small></b><span>de foco</span></div><div><b>'+sm+'<small> min</small></b><span>de estudo</span></div></div></div></div>';}
@@ -1460,7 +1461,7 @@ function stepRow(r,t){
 function vRotina(){
   const t=today(),list=rsorted(),n=list.filter(r=>rIsDone(r,t)).length;
   let h=head('Seu dia em ordem','Rotina');
-  if(isWE(today()))h+='<div class="note">'+ic('sparkles')+'<div><span><b>Fim de semana:</b> a rotina é opcional. Faça só o que quiser.</span></div></div>';
+  if(isWE(today()))h+='<div class="note">'+ic('sparkles')+'<div><span><b>'+(ferOf(today())&&![0,6].includes(parse(today()).getDay())?'Feriado:':'Fim de semana:')+'</b> a rotina é opcional. Faça só o que quiser.</span></div></div>';
   h+='<div class="card"><div class="sec"><h3>'+ic('rotina')+'Hoje</h3>'+(list.length?'<span class="small muted"><b style="color:var(--ink);font-family:var(--f-disp)">'+n+'</b> / '+list.length+'</span>':'')+'</div>';
   if(!list.length)h+='<div class="empty">'+emptyArt('habit')+'<span>Sua rotina está vazia.<br>Adicione o primeiro passo abaixo.</span></div>';
   else{h+='<div class="bar"><i style="width:'+pct(n/list.length)+'%"></i></div>';list.forEach(r=>{h+=stepRow(r,t)});
@@ -1740,14 +1741,14 @@ function gyNs(n,p){return n}
 function gySub(slot){return (S.gy.sub&&S.gy.sub[slot]&&GX[S.gy.sub[slot]])?S.gy.sub[slot]:slot}
 function gyMig(){const g=S.gy;if(g&&g.pv!==57){g.pv=57;g.mig=1;const o=g.sub||{},n={};Object.keys(o).forEach(k=>{GPLAN.forEach(pl=>pl.forEach(e=>{if(e.id===k&&e.alt.indexOf(o[k])>=0)n[k]=o[k]}))});g.sub=n}if(!g||g.mig)return;g.mig=1;g.sub=g.sub||{};Object.keys(g.logs||{}).forEach(k=>{const l=g.logs[k],m=/^\d+g(\d)$/.exec(k);if(!l||!l.sets||!m)return;const pl=GPLAN[+m[1]];if(!pl)return;Object.keys(l.sets).forEach(id=>{const e=pl.find(q=>q.id!==id&&q.alt&&q.alt.indexOf(id)>=0);if(e&&!l.sets[e.id]&&g.sub[e.id]===undefined)g.sub[e.id]=id})})}
 
-let msEd=null,gySw=-1,gyEd=null,cfgOn=false,gyRst=0,gyEdI=0;
+let gyDr={},msEd=null,gySw=-1,gyEd=null,cfgOn=false,gyRst=0,gyEdI=0;
 function gyPlan(i){const c=S.gy&&S.gy.cus&&S.gy.cus[i];if(Array.isArray(c)){const v=c.filter(e=>e&&GX[e.id]);if(v.length)return v.length===c.length?c:v}return GPLAN[i]}
 function gyOrd(){const o=S.gy&&S.gy.ord;if(Array.isArray(o)&&o.length===5&&[0,1,2,3,4].every(k=>o.indexOf(k)>=0))return o;return [0,1,2,3,4]}
 function gyNm(i){const n=S.gy&&S.gy.nm&&S.gy.nm[i];return n?esc(n):GNOME[i]}
 function gyEdP(i){if(!S.gy.cus)S.gy.cus={};if(!Array.isArray(S.gy.cus[i]))S.gy.cus[i]=JSON.parse(JSON.stringify(gyPlan(i)));return S.gy.cus[i]}
 const clp=(v,a,b)=>Math.max(a,Math.min(b,v));
 function stp(l,v,key,f){return '<div class="stp"><span class="stl">'+l+'</span><button type="button" class="stb" data-act="gyEdN" data-id="'+key+'|'+f+'|-1" aria-label="Diminuir '+l+'">−</button><b>'+v+'</b><button type="button" class="stb" data-act="gyEdN" data-id="'+key+'|'+f+'|1" aria-label="Aumentar '+l+'">+</button></div>'}
-function swPanel(pl,j){const have={};pl.forEach(e=>{have[e.id]=1});const o=Object.keys(GX).filter(k=>!have[k]).sort((a,b)=>GX[a].n<GX[b].n?-1:1).map(k=>'<option value="'+k+'">'+esc(GX[k].n)+'</option>').join('');
+function swPanel(pl,j){const have={};pl.forEach(e=>{have[e.id]=1});const o=Object.keys(GX).filter(k=>!have[k]).sort((a,b)=>GX[a].n<GX[b].n?-1:1).map(k=>'<option value="'+k+'"'+(gyDr['ged-sw']===k?' selected':'')+'>'+esc(GX[k].n)+'</option>').join('');
   return '<div class="swp"><label>Trocar por<select id="ged-sw">'+o+'</select></label><div class="row"><button type="button" class="btn p grow" data-act="gySw" data-id="'+j+'">Trocar exercício</button><button type="button" class="btn o grow" data-act="gySwOpen" data-id="-1">Cancelar</button></div><div class="small muted">Mantém séries, repetições e descanso.</div></div>'}
 function vGyEd(){
   const g=S.gy,i=gyEd,ord=gyOrd();
@@ -1757,33 +1758,46 @@ function vGyEd(){
   const pl=gyPlan(i);
   h+='<div class="card"><div class="sec"><h3>'+ic('treino')+'Ordem da sequência</h3></div><div class="small muted">O app sugere o próximo treino nesta ordem. Você sempre pode escolher outro treino no dia.</div>'+ord.map((k,p)=>'<div class="gor"><b class="bd">'+GLET[k]+'</b><span>'+gyNm(k)+'</span><button type="button" class="stb" data-act="gyMv" data-id="'+p+'|-1"'+(p===0?' disabled':'')+' aria-label="Subir">↑</button><button type="button" class="stb" data-act="gyMv" data-id="'+p+'|1"'+(p===4?' disabled':'')+' aria-label="Descer">↓</button></div>').join('')+'</div>';
   h+='<div class="chips" style="margin:4px 0 10px">'+ord.map(k=>'<button type="button" class="chip'+(k===i?' on':'')+'" data-act="gyEdSel" data-id="'+k+'">'+GLET[k]+'</button>').join('')+'</div>';
-  h+='<div class="card"><div class="sec"><h3>Treino '+GLET[i]+'</h3></div><label>Nome<input id="ged-nm" type="text" maxlength="40" value="'+(g.nm&&g.nm[i]?esc(g.nm[i]):esc(GNOME[i]))+'"></label><button type="button" class="btn s w full" data-act="gyEdNm">Salvar nome</button></div>';
+  h+='<div class="card"><div class="sec"><h3>Treino '+GLET[i]+'</h3></div><label>Nome<input id="ged-nm" type="text" maxlength="40" value="'+(gyDr['ged-nm']!==undefined?esc(gyDr['ged-nm']):(g.nm&&g.nm[i]?esc(g.nm[i]):esc(GNOME[i])))+'"></label><button type="button" class="btn s w full" data-act="gyEdNm">Salvar nome</button></div>';
   h+=pl.map((e,j)=>{const x=GX[e.id],r=e.r|0,rt=Math.floor(r/60)+':'+String(r%60).padStart(2,'0');
     return '<div class="exr"><div class="exh"><b>'+esc(x.n)+'</b><span class="exm"><button type="button" class="stb stsw" data-act="gySwOpen" data-id="'+j+'">Trocar</button><button type="button" class="stb" data-act="gyEdMv" data-id="'+j+'|-1"'+(j===0?' disabled':'')+' aria-label="Subir">↑</button><button type="button" class="stb" data-act="gyEdMv" data-id="'+j+'|1"'+(j===pl.length-1?' disabled':'')+' aria-label="Descer">↓</button><button type="button" class="stb" data-act="gyEdDel" data-id="'+j+'"'+(pl.length<=1?' disabled':'')+' aria-label="Remover">×</button></span></div>'+
       (gySw===j?swPanel(pl,j):'')+stp('Séries',e.n,j,'n')+stp('Repetições (mín)',e.lo,j,'lo')+stp('Repetições (máx)',e.hi,j,'hi')+stp('Descanso',rt,j,'r')+
       '<label class="lk-r"><span>Só no treino completo</span><input type="checkbox" data-act="gyEdO" data-id="'+j+'"'+(e.o?' checked':'')+'></label></div>'}).join('');
   const have={};pl.forEach(e=>{have[e.id]=1});
-  const opts=Object.keys(GX).filter(k=>!have[k]).sort((a,b)=>GX[a].n<GX[b].n?-1:1).map(k=>'<option value="'+k+'">'+esc(GX[k].n)+'</option>').join('');
+  const opts=Object.keys(GX).filter(k=>!have[k]).sort((a,b)=>GX[a].n<GX[b].n?-1:1).map(k=>'<option value="'+k+'"'+(gyDr['ged-add']===k?' selected':'')+'>'+esc(GX[k].n)+'</option>').join('');
   h+='<div class="card"><div class="sec"><h3>Adicionar exercício</h3></div>'+(opts?'<label>Exercício<select id="ged-add">'+opts+'</select></label><button type="button" class="btn s w full" data-act="gyAdd">Adicionar ao treino '+GLET[i]+'</button>':'<div class="small muted">Todos os exercícios já estão neste treino.</div>')+'</div>';
+  const mo=Object.keys(MNAME).map(k=>'<option value="'+k+'"'+((gyDr['ged-cm']||'')===k?' selected':'')+'>'+MNAME[k]+'</option>').join(''),io=['1','2','2.5','5'].map(k=>'<option value="'+k+'"'+((gyDr['ged-ci']||'2.5')===k?' selected':'')+'>'+k.replace('.',',')+'</option>').join('');
+  const cl=Object.keys(g.cx||{}).map(k=>'<div class="cxr"><span>'+esc(GX[k]?GX[k].n:g.cx[k].n)+'<small class="muted"> · '+(MNAME[g.cx[k].mu]||'')+'</small></span><button type="button" class="stb" data-act="gyCxDel" data-id="'+k+'" aria-label="Apagar exercício">×</button></div>').join('');
+  h+='<div class="card"><div class="sec"><h3>Criar exercício próprio</h3></div><div class="small muted">Escreva um exercício que não está na lista. Ele entra no treino '+GLET[i]+' e fica disponível para trocar e adicionar nos outros.</div>'+
+    '<label>Nome<input id="ged-cn" type="text" maxlength="60" autocomplete="off" placeholder="Ex.: Supino inclinado na máquina" value="'+esc(gyDr['ged-cn']||'')+'"></label>'+
+    '<label>Equipamento (opcional)<input id="ged-ce" type="text" maxlength="60" autocomplete="off" value="'+esc(gyDr['ged-ce']||'')+'"></label>'+
+    '<div class="two"><label>Músculo principal<select id="ged-cm">'+mo+'</select></label><label>Passo da carga (kg)<select id="ged-ci">'+io+'</select></label></div>'+
+    '<div class="small bad" id="ged-cerr" role="alert"></div><button type="button" class="btn s w full" data-act="gyCx">Criar e adicionar ao treino '+GLET[i]+'</button>'+(cl?'<div class="small muted" style="margin-top:12px">Seus exercícios</div>'+cl:'')+'</div>';
   h+='<div class="card"><div class="sec"><h3>Plano do professor</h3></div><div class="small muted">Volta séries, repetições, descanso, exercícios, nomes e ordem para o plano original. As cargas registradas continuam salvas.</div><button type="button" class="btn d w full" data-act="gyEdRst">'+(gyRst?'Toque de novo para confirmar':'Restaurar plano do professor')+'</button></div>';
   return h;
 }
 function ceAct(a,id,b){
   const g=S.gy;
   if(a==='cfgOpen'){cfgOn=true;gyEd=null;render(false);window.scrollTo(0,0);return true}
+  if(a==='ferTog'){S.fer=(S.fer&&typeof S.fer==='object')?S.fer:{};S.fer.on=S.fer.on===false;commit();return true}
+  if(a==='ferEx'){S.fer=(S.fer&&typeof S.fer==='object')?S.fer:{};S.fer.ex=(S.fer.ex&&typeof S.fer.ex==='object')?S.fer.ex:{};if(S.fer.ex[id])delete S.fer.ex[id];else S.fer.ex[id]=1;commit();return true}
+  if(a==='ferDel'){if(S.fer&&S.fer.add)delete S.fer.add[id];commit();return true}
+  if(a==='ferAdd'){const d=(document.getElementById('fer-d')||{}).value,n=String((document.getElementById('fer-n')||{}).value||'').trim().slice(0,40),er=document.getElementById('fer-err'),bad=m=>{if(er)er.textContent=m;return true};
+    if(!/^\d{4}-\d\d-\d\d$/.test(d||''))return bad('Escolha a data.');if(!n)return bad('Escreva o nome do dia.');
+    S.fer=(S.fer&&typeof S.fer==='object')?S.fer:{};S.fer.add=(S.fer.add&&typeof S.fer.add==='object')?S.fer.add:{};S.fer.add[d]=n;commit();toast('Dia sem treino adicionado.');return true}
   if(a==='cfgClose'){cfgOn=false;render(false);window.scrollTo(0,0);return true}
   if(a==='gyEdOpen'){if(!g)return true;cfgOn=false;tab='treino';trM='gym';gyEd=gyOrd()[0];gyRst=0;render(true);window.scrollTo(0,0);return true}
-  if(a==='gyEdClose'){gySw=-1;gyEd=null;gyRst=0;render(false);window.scrollTo(0,0);return true}
+  if(a==='gyEdClose'){gyDr={};gySw=-1;gyEd=null;gyRst=0;render(false);window.scrollTo(0,0);return true}
   if(a==='cfgShort'){UI.short=!UI.short;uiSave();gyShort=!!UI.short;render(false);return true}
   if(a==='cfgW'&&S.water){const q=id.split('|'),d=+q[1];if(q[0]==='goal')S.water.goal=clp((S.water.goal||2000)+250*d,500,8000);else S.water.bottle=clp((S.water.bottle||500)+50*d,100,1500);try{wSync()}catch(e){}commit();return true}
   if(!g)return false;
   if(a==='cfgRx'){g.rx=clp((g.rx|0)+15*(+id),-60,120);commit();return true}
   if(a==='gySwOpen'){gySw=(+id===gySw)?-1:+id;render(false);return true}
-  if(a==='gySw'&&!g.gs){const el=document.getElementById('ged-sw'),k=el&&el.value,pl=gyEdP(gyEd),e=pl[+id];if(!k||!GX[k]||!e||pl.some(q=>q.id===k))return true;e.id=k;e.alt=[];gySw=-1;commit();toast('Exercício trocado.');return true}
-  if(a==='gyEdSel'){gySw=-1;gyEd=+id;gyRst=0;render(false);return true}
+  if(a==='gySw'&&!g.gs){const el=document.getElementById('ged-sw'),k=el&&el.value,pl=gyEdP(gyEd),e=pl[+id];if(!k||!GX[k]||!e||pl.some(q=>q.id===k))return true;e.id=k;e.alt=[];gySw=-1;delete gyDr['ged-sw'];commit();toast('Exercício trocado.');return true}
+  if(a==='gyEdSel'){gyDr={};gySw=-1;gyEd=+id;gyRst=0;render(false);return true}
   if(a==='gyMv'){const q=id.split('|').map(Number),o=gyOrd().slice(),t=q[0]+q[1];if(t<0||t>4)return true;const x=o[q[0]];o[q[0]]=o[t];o[t]=x;g.ord=o;gyRst=0;commit();return true}
   if(a==='gyEdNm'){const el=document.getElementById('ged-nm'),v=el?el.value.trim().slice(0,40):'';if(!g.nm)g.nm={};if(v&&v!==GNOME[gyEd])g.nm[gyEd]=v;else delete g.nm[gyEd];commit();toast('Nome salvo.');return true}
-  if(a==='gyEdRst'){if(!gyRst){gyRst=1;render(false);return true}delete g.cus;delete g.ord;delete g.nm;gyRst=0;commit();toast('Plano do professor restaurado.');return true}
+  if(a==='gyEdRst'){if(!gyRst){gyRst=1;render(false);return true}gyDr={};delete g.cus;delete g.ord;delete g.nm;gyRst=0;commit();toast('Plano do professor restaurado.');return true}
   if(g.gs||gyEd==null)return false;
   if(a==='gyEdN'){const q=id.split('|'),pl=gyEdP(gyEd),e=pl[+q[0]],f=q[1],d=+q[2];if(!e)return true;
     if(f==='n')e.n=clp(e.n+d,1,10);else if(f==='lo'){e.lo=clp(e.lo+d,1,40);if(e.hi<e.lo)e.hi=e.lo}else if(f==='hi'){e.hi=clp(e.hi+d,1,50);if(e.lo>e.hi)e.lo=e.hi}else if(f==='r')e.r=clp((e.r|0)+15*d,0,300);
@@ -1791,7 +1805,14 @@ function ceAct(a,id,b){
   if(a==='gyEdMv'){const q=id.split('|').map(Number),pl=gyEdP(gyEd),t=q[0]+q[1];if(t<0||t>=pl.length)return true;const x=pl[q[0]];pl[q[0]]=pl[t];pl[t]=x;commit();return true}
   if(a==='gyEdDel'){const pl=gyEdP(gyEd);if(pl.length<=1){toast('O treino precisa de pelo menos 1 exercício.');return true}pl.splice(+id,1);commit();return true}
   if(a==='gyEdO'){const e=gyEdP(gyEd)[+id];if(e){if(e.o)delete e.o;else e.o=1}commit();return true}
-  if(a==='gyAdd'){const el=document.getElementById('ged-add'),k=el&&el.value,pl=gyEdP(gyEd);if(!k||!GX[k]||pl.some(e=>e.id===k))return true;pl.push({id:k,n:3,lo:8,hi:12,r:90,alt:[]});commit();toast('Exercício adicionado.');return true}
+  if(a==='gyCx'){const val=q=>String((document.getElementById(q)||{}).value||'').trim(),n=val('ged-cn'),er=document.getElementById('ged-cerr'),bad=m=>{if(er)er.textContent=m;return true};
+    if(n.length<2)return bad('Escreva o nome do exercício.');
+    if(Object.keys(GX).some(k=>GX[k].n.toLowerCase()===n.toLowerCase()))return bad('Já existe um exercício com esse nome. Use Trocar ou Adicionar.');
+    const mu=val('ged-cm'),inc=+val('ged-ci')||2.5;if(!MNAME[mu])return bad('Escolha o músculo.');
+    g.cx=g.cx||{};let m=0;Object.keys(g.cx).forEach(k=>{m=Math.max(m,+k.slice(1)||0)});const k='c'+(m+1);
+    g.cx[k]={n:n.slice(0,60),eq:val('ged-ce').slice(0,60),mu:mu,inc:inc};gyCxApply(g);gyEdP(gyEd).push({id:k,n:3,lo:8,hi:12,r:90,alt:[]});gyDr={};commit();toast('Exercício criado e adicionado.');return true}
+  if(a==='gyCxDel'){if(g.cx&&g.cx[id]){const used=[0,1,2,3,4].some(w=>gyPlan(w).some(e=>e.id===id))||Object.keys(g.logs||{}).some(q=>g.logs[q]&&g.logs[q].sets&&g.logs[q].sets[id]);if(used){toast('Esse exercício está num treino ou tem séries registradas. Não dá para apagar.');return true}delete g.cx[id];delete GX[id];commit();toast('Exercício apagado.')}return true}
+  if(a==='gyAdd'){const el=document.getElementById('ged-add'),k=el&&el.value,pl=gyEdP(gyEd);if(!k||!GX[k]||pl.some(e=>e.id===k))return true;pl.push({id:k,n:3,lo:8,hi:12,r:90,alt:[]});delete gyDr['ged-add'];commit();toast('Exercício adicionado.');return true}
   return false;
 }
 function cfgLook(){
@@ -1810,6 +1831,7 @@ function vCfg(){
     h+='<div class="lk-t">Lado mais fraco (começa a série)</div><div class="chips"><button type="button" class="chip'+(g.weak==='e'?' on':'')+'" data-act="gyWeak" data-id="e">Esquerdo</button><button type="button" class="chip'+(g.weak==='d'?' on':'')+'" data-act="gyWeak" data-id="d">Direito</button></div>';
   }else h+='<div class="small muted">Comece a academia na aba Treino para ajustar o plano.</div>';
   h+='<label class="lk-r"><span>Abrir treinos no modo curto</span><input type="checkbox" data-act="cfgShort"'+(UI.short?' checked':'')+'></label>'+cfgRows([['wake','Manter a tela ligada no treino guiado']])+'</div>';
+  h+=ferCard();
   h+='<div class="card"><div class="sec"><h3>Água</h3></div>';
   if(w){
     h+='<div class="stp"><span class="stl">Meta por dia (ml)</span><button type="button" class="stb" data-act="cfgW" data-id="goal|-1" aria-label="Diminuir">−</button><b>'+w.goal+'</b><button type="button" class="stb" data-act="cfgW" data-id="goal|1" aria-label="Aumentar">+</button></div>';
@@ -1831,22 +1853,45 @@ function gyItems(w,i,short){
 }
 function gySobe(){const w=gyWeek(),out=[],seen={};[0,1,2,3,4].forEach(i=>{gyItems(w,i,false).forEach(it=>{if(seen[it.id])return;const sg=gySug(it,w);if(sg.up){seen[it.id]=1;out.push({n:GX[it.id].n,k:sg.k,u:it.u})}})});return out}
 function vSobe(){if(!S.gy)return '';const a=gySobe();return '<div class="card"><div class="sec"><h3>'+ic('tick')+'Hora de subir a carga</h3></div>'+(a.length?'<div class="small muted">Você fechou o topo das repetições em todas as séries na última vez. Suba agora:</div>'+a.map(x=>'<div class="up2"><span>'+esc(x.n)+'</span><b>'+gyF(x.k)+' kg'+(x.u?' por lado':'')+'</b></div>').join(''):'<div class="small muted">Nenhum exercício está pronto. Quando você fechar o topo das repetições em todas as séries, ele aparece aqui com a carga nova.</div>')+'</div>'}
-function gySer(){const m0=monday(today()),done={},plan={};Object.keys(S.gy.logs||{}).forEach(k=>{const l=S.gy.logs[k];if(!l||!l.sets||!l.date||l.date<m0)return;Object.keys(l.sets).forEach(id=>{if(!GX[id])return;const n=(l.sets[id]||[]).length;if(!n)return;muscOf(GX[id].n).forEach(g=>{done[g]=(done[g]||0)+n})})});[0,1,2,3,4].forEach(i=>gyPlan(i).forEach(e=>{const id=gySub(e.id);if(!GX[id])return;muscOf(GX[id].n).forEach(g=>{plan[g]=(plan[g]||0)+e.n})}));return {done:done,plan:plan}}
+function gySer(){const m0=monday(today()),done={},plan={};Object.keys(S.gy.logs||{}).forEach(k=>{const l=S.gy.logs[k];if(!l||!l.sets||!l.date||l.date<m0)return;Object.keys(l.sets).forEach(id=>{if(!GX[id])return;const n=(l.sets[id]||[]).length;if(!n)return;gyMu(id).forEach(g=>{done[g]=(done[g]||0)+n})})});[0,1,2,3,4].forEach(i=>gyPlan(i).forEach(e=>{const id=gySub(e.id);if(!GX[id])return;gyMu(id).forEach(g=>{plan[g]=(plan[g]||0)+e.n})}));return {done:done,plan:plan}}
 function vSer(){if(!S.gy)return '';const d=gySer(),mx=24,ks=Object.keys(MNAME).filter(g=>d.plan[g]||d.done[g]);if(!ks.length)return '';
   const lo=ks.filter(g=>(d.plan[g]||0)<10&&g!=='abd'&&g!=='pant').map(g=>MNAME[g]);
   return '<div class="card"><div class="sec"><h3>'+ic('treino')+'Séries por músculo na semana</h3></div><div class="small muted">Feitas / no plano. A faixa clara marca 10 a 20 séries por semana, o que a pesquisa indica para hipertrofia.</div>'+ks.map(g=>{const p=d.plan[g]||0,f=d.done[g]||0,st=p<10?'lo':p>20?'hi':'ok';return '<div class="ser"><span>'+MNAME[g]+'</span><div class="serb"><s style="left:'+(10/mx*100)+'%;width:'+(10/mx*100)+'%"></s><em style="width:'+Math.min(100,p/mx*100)+'%"></em><i style="width:'+Math.min(100,f/mx*100)+'%"></i></div><b class="'+st+'">'+f+'/'+p+'</b></div>'}).join('')+
    (lo.length?'<div class="small muted" style="margin-top:8px">Abaixo de 10 no plano: '+lo.join(', ')+'. Conta só as séries diretas; supino também trabalha tríceps e ombro, e puxadas trabalham bíceps.</div>':'<div class="small muted" style="margin-top:8px">Todos os músculos principais estão na faixa no seu plano.</div>')+'</div>'}
 const vGy1=vGy;vGy=function(){const h=vGy1();return S.gy&&S.gy.gs&&gyGm?h:h+vSobe()+vSer()};
+function gyCxApply(y){try{if(!y.cx||typeof y.cx!=='object'||Array.isArray(y.cx))y.cx={};Object.keys(y.cx).forEach(k=>{const c=y.cx[k];if(!c||typeof c.n!=='string'||!c.n.trim()||!/^c\d+$/.test(k)){delete y.cx[k];return}GX[k]={n:c.n.slice(0,60),eq:String(c.eq||'').slice(0,60),inc:+c.inc>0?+c.inc:2.5,cs:null,h:'',w:({peito:'Peito',costas:'Costas',ombros:'Ombros',triceps:'Tríceps',biceps:'Bíceps',quad:'Quadríceps',post:'Posterior',gluteo:'Glúteos',pant:'Panturrilha',abd:'Abdômen'})[c.mu]||'',e:'',mu:String(c.mu||'')}})}catch(e){}}
+function gyMu(id){const x=GX[id];if(!x)return [];return x.mu?[x.mu]:muscOf(x.n)}
+document.addEventListener('input',e=>{const t=e.target;if(t&&/^ged-/.test(t.id||''))gyDr[t.id]=t.value});
+document.addEventListener('change',e=>{const t=e.target;if(t&&/^ged-/.test(t.id||''))gyDr[t.id]=t.value});
+const FER_C={};
+function ferYear(y){if(FER_C[y])return FER_C[y];const m={},p2=n=>String(n).padStart(2,'0'),add=(mo,da,n,t)=>{m[y+'-'+p2(mo)+'-'+p2(da)]={n:n,t:t}};
+  add(1,1,'Confraternização Universal','nac');add(4,21,'Tiradentes','nac');add(5,1,'Dia do Trabalho','nac');add(7,9,'Revolução Constitucionalista (SP)','est');add(9,7,'Independência do Brasil','nac');add(9,12,'Aniversário de Jaguariúna','mun');add(10,12,'Nossa Senhora Aparecida','nac');add(11,2,'Finados','nac');add(11,15,'Proclamação da República','nac');add(11,20,'Consciência Negra','nac');add(12,25,'Natal','nac');
+  const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,mm=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*mm+114)/31),da=(h+l-7*mm+114)%31+1;
+  const sh=(n,nm,t)=>{const x=new Date(y,mo-1,da+n);add(x.getMonth()+1,x.getDate(),nm,t)};
+  sh(-48,'Carnaval (segunda)','fac');sh(-47,'Carnaval (terça)','fac');sh(-2,'Sexta-feira Santa','nac');sh(60,'Corpus Christi','fac');
+  return FER_C[y]=m}
+function ferOf(d){if(!S||!d)return null;const f=S.fer;if(f&&typeof f==='object'){if(f.on===false)return null;if(f.ex&&f.ex[d])return null;if(f.add&&f.add[d])return {n:f.add[d],t:'meu'}}const m=ferYear(+String(d).slice(0,4));return m[d]||null}
+function isFer(d){return !!ferOf(d)}
+const FTAG={nac:'nacional',est:'estadual',mun:'municipal',fac:'ponto facultativo',meu:'seu'};
+function ferCard(){const f=(S.fer&&typeof S.fer==='object')?S.fer:{},t=today(),on=f.on!==false,y=+t.slice(0,4),rows=[];
+  [y,y+1].forEach(yy=>{const m=ferYear(yy);Object.keys(m).forEach(d=>{if(d>=t){const w=parse(d).getDay();if(w>0&&w<6)rows.push({d:d,n:m[d].n,t:m[d].t,x:!!(f.ex&&f.ex[d]),c:0})}})});
+  Object.keys(f.add||{}).forEach(d=>{if(d>=t)rows.push({d:d,n:f.add[d],t:'meu',x:false,c:1})});
+  rows.sort((a,b)=>a.d<b.d?-1:1);
+  return '<div class="card"><div class="sec"><h3>'+ic('semana')+'Feriados e dias sem treino</h3></div><div class="small muted">Sábado e domingo já são descanso. Nos feriados o app não cobra nada: sem treino, sem dívida e sem cair na taxa.</div>'+
+   '<label class="lk-r"><span>Feriados contam como descanso</span><input type="checkbox" data-act="ferTog"'+(on?' checked':'')+'></label>'+
+   (on?rows.slice(0,10).map(r=>'<div class="cxr"><span>'+dnames[(parse(r.d).getDay()+6)%7]+' '+fmtS(r.d)+' · '+esc(r.n)+'<small class="muted"> · '+FTAG[r.t]+(r.x?' · vai treinar':'')+'</small></span>'+(r.c?'<button type="button" class="stb" data-act="ferDel" data-id="'+r.d+'" aria-label="Remover">×</button>':'<button type="button" class="stb stsw" data-act="ferEx" data-id="'+r.d+'">'+(r.x?'Descanso':'Vou treinar')+'</button>')+'</div>').join(''):'')+
+   '<div class="lk-t">Adicionar um dia sem treino</div><div class="two"><label>Data<input id="fer-d" type="date"></label><label>Nome<input id="fer-n" type="text" maxlength="40" placeholder="Ex.: Viagem"></label></div><div class="small bad" id="fer-err" role="alert"></div><button type="button" class="btn s w full" data-act="ferAdd">Adicionar</button></div>'}
 function gyMS(x){x=Math.max(0,Math.round(x));return Math.floor(x/60)+':'+String(x%60).padStart(2,'0')}
 function gyMin(its){return 8+Math.round(its.reduce((a,x)=>a+x.n*(x.r/60+(x.u?1.8:0.9)),0))}
 function gyNext(w){const o=gyOrd();for(let k=0;k<5;k++)if(!S.gy.logs[gyKey(w,o[k])])return o[k];return -1}
 function gyToday(){
   if(!S.gy)return null;const t=today();if(t<S.gy.start)return null;const w=gyWeek(),wd=(parse(t).getDay()+6)%7;
-  if(wd>4)return null;
+  if(wd>4||isFer(t))return null;
   if(Object.keys(S.gy.logs).some(k=>S.gy.logs[k]&&S.gy.logs[k].date===t))return null;
   const i=gyNext(w);if(i<0)return null;return {w,i};
 }
 function vHojeGy(){
+  {const tt=today(),fo=ferOf(tt),wd0=(parse(tt).getDay()+6)%7;if(S.gy&&fo&&wd0<=4&&tt>=S.gy.start)return '<div class="card"><div class="sec"><h3>'+ic('treino')+'Hoje é feriado</h3></div><div class="small"><b style="color:var(--ink)">'+esc(fo.n)+'</b> · a academia não abre. Descanso, sem dívida de treino.</div><button class="btn o" type="button" data-act="ferEx" data-id="'+tt+'">Vou treinar mesmo assim</button></div>'}
   const c=gyToday();if(!c)return '';const its=gyItems(c.w,c.i,false);
   return '<div class="card"><div class="sec"><h3>'+ic('treino')+'Academia de hoje</h3><span class="small muted">semana '+(c.w+1)+'</span></div><div class="small"><b style="color:var(--ink)">'+gyNm(c.i)+'</b> · '+its.length+' exercícios · ~'+gyMin(its)+' min</div><div class="small muted">Próximo da sequência. Pode escolher outro abaixo.</div>'+(S.gy.gs&&S.gy.gs.key===gyKey(c.w,c.i)?'<button class="btn p" type="button" data-act="gyCont2">Continuar treino guiado</button>':'<button class="btn p" type="button" data-act="gyStart2" data-id="'+gyKey(c.w,c.i)+'">Iniciar treino guiado</button>')+'<button class="btn o" type="button" data-act="gyGo" data-id="'+gyKey(c.w,c.i)+'">Ver treino</button>'+(function(){const oth=gyOrd().filter(i=>i!==c.i&&!S.gy.logs[gyKey(c.w,i)]);return oth.length?'<div class="small muted" style="margin-top:8px">Ou escolha outro treino hoje:</div><div class="chips">'+oth.map(i=>'<button type="button" class="chip" data-act="gyStart2" data-id="'+gyKey(c.w,i)+'">'+gyNm(i)+'</button>').join('')+'</div>':''})()+'</div>';
 }
@@ -1888,7 +1933,7 @@ function gyAltBtn(it,mode){
   if(!it.alt||!it.alt.length)return '';const opts=[it.slot].concat(it.alt),nx=opts[(opts.indexOf(it.id)+1)%opts.length];
   return '<button type="button" class="btn s o" data-act="'+(mode==='g'?'gyAlt':'gySub')+'" data-id="'+it.slot+'" data-v="'+nx+'">'+(nx===it.slot?'Voltar para ':'Trocar por ')+GX[nx].n+'</button>';
 }
-function gyExec(x){return (x.w?'<div class="small"><b>Trabalha:</b> '+x.w+'</div>':'')+'<div class="small muted"><b>Como fazer:</b> '+x.h+'</div>'+(x.e?'<div class="small muted"><b>Evite:</b> '+x.e+'</div>':'')}
+function gyExec(x){return (x.w?'<div class="small"><b>Trabalha:</b> '+x.w+'</div>':'')+(x.h?'<div class="small muted"><b>Como fazer:</b> '+x.h+'</div>':'')+(x.e?'<div class="small muted"><b>Evite:</b> '+x.e+'</div>':'')}
 function gyEx(it,w){
   const id=it.id,x=GX[id],ph=GPH[id],o=gyG===id,hist=gyHist(id),last=hist.length?hist[hist.length-1]:null,bs=gyBest(id),sg=gySug(it,w),pn=gyPainN(id),as=x.u?gyAsym(id):null;
   return '<div class="ex"><div class="ex-t"><b>'+x.n+'</b><span class="tg">'+it.dose+'</span><div class="small muted">'+x.eq+' · descanso '+gyRest(it.r)+(x.u?' (depois dos dois lados)':'')+'</div><div class="exe">'+gyExec(x)+'</div>'+
@@ -2602,7 +2647,7 @@ function vHabTab(){
 }
 function vMetaTab(){let h=vMetaAtual();if(S.goal)h+='<div class="sec" style="margin:22px 4px 8px"><h3>'+ic('semana')+'Balanço da semana</h3></div>'+vSemana();return h+SCIX}
 let prevTab='hoje',SCIX='',nF='all',nO=null,nV='org',nBusy=null,nEd=null,nAsk=null,nPre='estudo',nErr='';
-function render(anim){
+function render(anim){try{if(S&&S.gy)gyCxApply(S.gy)}catch(e){}
   const el=document.getElementById('app');
   const ia=TABS.findIndex(x=>x[0]===prevTab),ib=TABS.findIndex(x=>x[0]===tab);el.style.setProperty('--dx',(ib>ia?18:ib<ia?-18:0)+'px');prevTab=tab;
   document.body.classList.toggle('focusing',!!fc);
@@ -2837,7 +2882,7 @@ function muscOf(name){const n=String(name).toLowerCase().replace('apoio no peito
 }
 function muscData(days){
   const from=addDays(today(),-(days-1)),cnt={};
-  if(S.gy)Object.keys(S.gy.logs||{}).forEach(k=>{const l=S.gy.logs[k];if(!l||!l.sets||!l.date||l.date<from)return;Object.keys(l.sets).forEach(id=>{if(!GX[id])return;const n=(l.sets[id]||[]).length;if(!n)return;muscOf(GX[id].n).forEach(g=>{cnt[g]=(cnt[g]||0)+n})})});
+  if(S.gy)Object.keys(S.gy.logs||{}).forEach(k=>{const l=S.gy.logs[k];if(!l||!l.sets||!l.date||l.date<from)return;Object.keys(l.sets).forEach(id=>{if(!GX[id])return;const n=(l.sets[id]||[]).length;if(!n)return;gyMu(id).forEach(g=>{cnt[g]=(cnt[g]||0)+n})})});
   return cnt;
 }
 const MNAME={peito:'Peito',costas:'Costas',ombros:'Ombros',triceps:'Tríceps',biceps:'Bíceps',quad:'Quadríceps',post:'Posterior',gluteo:'Glúteos',pant:'Panturrilha',abd:'Abdômen'};
