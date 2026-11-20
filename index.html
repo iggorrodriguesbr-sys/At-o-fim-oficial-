@@ -675,6 +675,10 @@ button.avatar.gear{display:inline-flex;align-items:center;justify-content:center
 .btn.o{color:var(--ink)}
 .stsw{width:auto;padding:0 10px;font-size:12px}
 .swp{margin:8px 0;padding:10px;border:1px solid var(--line);border-radius:12px}.swp .row{margin:8px 0 6px}
+.upb{border:1.5px solid #3DDC97;border-radius:12px;padding:8px 10px;color:var(--ink)}
+.up2{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.up2 span{min-width:0;overflow-wrap:anywhere;color:var(--ink)}.up2 b{color:#3DDC97;white-space:nowrap}
+.ser{display:grid;grid-template-columns:96px minmax(0,1fr) 44px;gap:8px;align-items:center;padding:6px 0}.ser span{font-size:13px;color:var(--ink)}.ser b{text-align:right;font-size:13px;color:var(--ink)}.ser b.lo{color:#F2B84B}.ser b.hi{color:#FF6B6B}
+.serb{position:relative;height:10px;border-radius:6px;background:var(--surface2);overflow:hidden}.serb s{position:absolute;top:0;bottom:0;background:rgba(61,220,151,.22)}.serb em{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--line2)}.serb i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--ink)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -1098,13 +1102,18 @@ function vMetaAtual(){
   if(g.why||g.obstacle)h+='<div class="card"><div class="sec"><h3>'+ic('sparkles')+'Seu plano</h3></div>'+
     (g.why?'<div class="quote"><span class="k">Melhor resultado</span><span class="v">'+esc(g.why)+'</span></div>':'')+
     (g.obstacle?'<div class="quote"><span class="k">Se</span><span class="v">'+esc(g.obstacle)+'</span><span class="k">Então</span><span class="v">'+esc(g.plan)+'</span></div>':'')+'</div>';
+  h+='<div class="card"><div class="sec"><h3>'+ic('sparkles')+'Editar meta</h3></div>'+fold('mg','Editar título, prazo, quantidade e plano','<form data-form="goaled" novalidate><label>Meta<input id="ge-t" maxlength="160" required value="'+esc(g.title)+'"></label>'+
+    '<div class="two"><label>Unidade<input id="ge-u" maxlength="30" required value="'+esc(g.unit)+'"></label><label>Quantidade por semana<input id="ge-w" type="number" inputmode="numeric" min="1" max="1000" required value="'+g.weekly+'"></label></div>'+
+    '<div class="two"><label>Início<input id="ge-s" type="date" required value="'+g.start+'"></label><label>Prazo<input id="ge-d" type="date" required value="'+g.deadline+'"></label></div>'+
+    '<label>Melhor resultado<textarea id="ge-y" maxlength="300">'+esc(g.why||'')+'</textarea></label><label>Obstáculo (Se...)<textarea id="ge-o" maxlength="300">'+esc(g.obstacle||'')+'</textarea></label><label>Plano (Então...)<textarea id="ge-p" maxlength="300">'+esc(g.plan||'')+'</textarea></label>'+
+    '<div class="small bad" id="ge-err" role="alert"></div><button class="btn" type="submit">Salvar meta</button></form>')+'</div>';
   h+='<div class="card"><div class="sec"><h3>'+ic('flag')+'Etapas com data</h3></div>';
   g.ms.slice().sort((a,c)=>a.date<c.date?-1:1).forEach(m=>{
     const late=!m.done&&diff(m.date,today())>0;
     h+='<div class="item"><button class="chk sm '+(m.done?'on':'')+'" data-act="doneMs" data-id="'+m.id+'" aria-pressed="'+m.done+'" aria-label="Alternar etapa">'+ic('tick')+'</button>'+
       '<div class="grow"><div class="title"'+(m.done?' style="color:var(--muted);text-decoration:line-through"':'')+'>'+esc(m.t)+'</div>'+
       '<div class="small '+(late?'warn':'muted')+'">'+fmt(m.date)+(late?' · atrasado':'')+'</div></div>'+
-      '<button class="btn s d sq" style="width:40px" data-act="delMs" data-id="'+m.id+'" aria-label="Remover etapa">'+ic('trash')+'</button></div>';
+      '<button class="btn s o" data-act="msEd" data-id="'+m.id+'" aria-label="Editar etapa">Editar</button><button class="btn s d sq" style="width:40px" data-act="delMs" data-id="'+m.id+'" aria-label="Remover etapa">'+ic('trash')+'</button></div>'+(msEd===m.id?'<form data-form="msed" novalidate><div class="two"><label>Etapa<input id="me-t" required maxlength="100" value="'+esc(m.t)+'"></label><label>Data<input id="me-d" type="date" required value="'+m.date+'"></label></div><div class="small bad" id="me-err" role="alert"></div><div class="row"><button class="btn grow" type="submit">Salvar etapa</button><button class="btn o grow" type="button" data-act="msEd" data-id="'+m.id+'">Cancelar</button></div></form>':'');
   });
   h+=fold('ms','Nova etapa','<form data-form="ms" novalidate><div class="two"><label>Nova etapa<input id="m-t" required maxlength="100"></label>'+
      '<label>Data<input id="m-d" type="date" required value="'+addDays(today(),7)+'" max="'+g.deadline+'"></label></div>'+
@@ -1731,7 +1740,7 @@ function gyNs(n,p){return n}
 function gySub(slot){return (S.gy.sub&&S.gy.sub[slot]&&GX[S.gy.sub[slot]])?S.gy.sub[slot]:slot}
 function gyMig(){const g=S.gy;if(g&&g.pv!==57){g.pv=57;g.mig=1;const o=g.sub||{},n={};Object.keys(o).forEach(k=>{GPLAN.forEach(pl=>pl.forEach(e=>{if(e.id===k&&e.alt.indexOf(o[k])>=0)n[k]=o[k]}))});g.sub=n}if(!g||g.mig)return;g.mig=1;g.sub=g.sub||{};Object.keys(g.logs||{}).forEach(k=>{const l=g.logs[k],m=/^\d+g(\d)$/.exec(k);if(!l||!l.sets||!m)return;const pl=GPLAN[+m[1]];if(!pl)return;Object.keys(l.sets).forEach(id=>{const e=pl.find(q=>q.id!==id&&q.alt&&q.alt.indexOf(id)>=0);if(e&&!l.sets[e.id]&&g.sub[e.id]===undefined)g.sub[e.id]=id})})}
 
-let gySw=-1,gyEd=null,cfgOn=false,gyRst=0,gyEdI=0;
+let msEd=null,gySw=-1,gyEd=null,cfgOn=false,gyRst=0,gyEdI=0;
 function gyPlan(i){const c=S.gy&&S.gy.cus&&S.gy.cus[i];if(Array.isArray(c)){const v=c.filter(e=>e&&GX[e.id]);if(v.length)return v.length===c.length?c:v}return GPLAN[i]}
 function gyOrd(){const o=S.gy&&S.gy.ord;if(Array.isArray(o)&&o.length===5&&[0,1,2,3,4].every(k=>o.indexOf(k)>=0))return o;return [0,1,2,3,4]}
 function gyNm(i){const n=S.gy&&S.gy.nm&&S.gy.nm[i];return n?esc(n):GNOME[i]}
@@ -1820,6 +1829,15 @@ function gyItems(w,i,short){
   its.forEach(x=>{x.dose=x.n+' × '+x.lo+(x.hi!==x.lo?'-'+x.hi:'')+(x.u?' por lado':'')});
   return its;
 }
+function gySobe(){const w=gyWeek(),out=[],seen={};[0,1,2,3,4].forEach(i=>{gyItems(w,i,false).forEach(it=>{if(seen[it.id])return;const sg=gySug(it,w);if(sg.up){seen[it.id]=1;out.push({n:GX[it.id].n,k:sg.k,u:it.u})}})});return out}
+function vSobe(){if(!S.gy)return '';const a=gySobe();return '<div class="card"><div class="sec"><h3>'+ic('tick')+'Hora de subir a carga</h3></div>'+(a.length?'<div class="small muted">Você fechou o topo das repetições em todas as séries na última vez. Suba agora:</div>'+a.map(x=>'<div class="up2"><span>'+esc(x.n)+'</span><b>'+gyF(x.k)+' kg'+(x.u?' por lado':'')+'</b></div>').join(''):'<div class="small muted">Nenhum exercício está pronto. Quando você fechar o topo das repetições em todas as séries, ele aparece aqui com a carga nova.</div>')+'</div>'}
+function gySer(){const m0=monday(today()),done={},plan={};Object.keys(S.gy.logs||{}).forEach(k=>{const l=S.gy.logs[k];if(!l||!l.sets||!l.date||l.date<m0)return;Object.keys(l.sets).forEach(id=>{if(!GX[id])return;const n=(l.sets[id]||[]).length;if(!n)return;muscOf(GX[id].n).forEach(g=>{done[g]=(done[g]||0)+n})})});[0,1,2,3,4].forEach(i=>gyPlan(i).forEach(e=>{const id=gySub(e.id);if(!GX[id])return;muscOf(GX[id].n).forEach(g=>{plan[g]=(plan[g]||0)+e.n})}));return {done:done,plan:plan}}
+function vSer(){if(!S.gy)return '';const d=gySer(),mx=24,ks=Object.keys(MNAME).filter(g=>d.plan[g]||d.done[g]);if(!ks.length)return '';
+  const lo=ks.filter(g=>(d.plan[g]||0)<10&&g!=='abd'&&g!=='pant').map(g=>MNAME[g]);
+  return '<div class="card"><div class="sec"><h3>'+ic('treino')+'Séries por músculo na semana</h3></div><div class="small muted">Feitas / no plano. A faixa clara marca 10 a 20 séries por semana, o que a pesquisa indica para hipertrofia.</div>'+ks.map(g=>{const p=d.plan[g]||0,f=d.done[g]||0,st=p<10?'lo':p>20?'hi':'ok';return '<div class="ser"><span>'+MNAME[g]+'</span><div class="serb"><s style="left:'+(10/mx*100)+'%;width:'+(10/mx*100)+'%"></s><em style="width:'+Math.min(100,p/mx*100)+'%"></em><i style="width:'+Math.min(100,f/mx*100)+'%"></i></div><b class="'+st+'">'+f+'/'+p+'</b></div>'}).join('')+
+   (lo.length?'<div class="small muted" style="margin-top:8px">Abaixo de 10 no plano: '+lo.join(', ')+'. Conta só as séries diretas; supino também trabalha tríceps e ombro, e puxadas trabalham bíceps.</div>':'<div class="small muted" style="margin-top:8px">Todos os músculos principais estão na faixa no seu plano.</div>')+'</div>'}
+const vGy1=vGy;vGy=function(){const h=vGy1();return S.gy&&S.gy.gs&&gyGm?h:h+vSobe()+vSer()};
+function gyMS(x){x=Math.max(0,Math.round(x));return Math.floor(x/60)+':'+String(x%60).padStart(2,'0')}
 function gyMin(its){return 8+Math.round(its.reduce((a,x)=>a+x.n*(x.r/60+(x.u?1.8:0.9)),0))}
 function gyNext(w){const o=gyOrd();for(let k=0;k<5;k++)if(!S.gy.logs[gyKey(w,o[k])])return o[k];return -1}
 function gyToday(){
@@ -1907,10 +1925,10 @@ function gyWorkout(w,i){
   const key=gyKey(w,i),lg=S.gy.logs[key],o=gyO===key,ws=addDays(S.gy.start,w*7),dd=gyDays(w)[gyOrd().indexOf(i)],date=dd>=0?addDays(ws,dd):null,t=today();
   const st=lg?'<span class="tg ok">feito</span>':(w===gyWeek()&&i===gyNext(w)&&((parse(t).getDay()+6)%7)<=4?'<span class="tg now">próximo</span>':'');
   const its=gyItems(w,i,gyShort&&!lg);
-  let h='<div class="wo'+(lg?' done':'')+'"><button type="button" class="wo-h" data-act="gyOpen" data-id="'+key+'" aria-expanded="'+o+'"><b class="bd">'+(lg?ic('tick'):GLET[i])+'</b><span class="wo-t"><strong>'+gyNm(i)+'</strong><small>'+its.length+' exercícios · ~'+gyMin(its)+' min · '+(date?dnames[dd]+' '+fmtS(date):'fora desta semana')+'</small></span>'+st+'</button>';
+  let h='<div class="wo'+(lg?' done':'')+'"><button type="button" class="wo-h" data-act="gyOpen" data-id="'+key+'" aria-expanded="'+o+'"><b class="bd">'+(lg?ic('tick'):GLET[i])+'</b><span class="wo-t"><strong>'+gyNm(i)+'</strong><small>'+its.length+' exercícios · ~'+gyMin(its)+' min · '+(lg&&lg.date?dnames[(parse(lg.date).getDay()+6)%7]+' '+fmtS(lg.date):'ainda não feito')+(lg&&lg.min?' · levou '+lg.min+' min':'')+'</small></span>'+st+'</button>';
   if(o){
     const gs=S.gy.gs;
-    h+='<div class="wo-b"><div class="small muted">'+GFOCO[i]+'.</div><div class="blk"><b>Aquecimento (8 min)</b><p>Faça séries leves de preparação antes dos exercícios principais (por exemplo, uma com 50% e outra com 75% da carga). Elas não contam como séries de trabalho.</p></div>';
+    h+='<div class="wo-b"><div class="small muted">'+GFOCO[i]+'.</div>'+(lg&&lg.rt?'<div class="small muted">Descanso real médio: <b style="color:var(--ink)">'+gyMS(lg.rt.r)+'</b> (plano '+gyMS(lg.rt.p)+')'+(lg.em?'. Previsto '+lg.em+' min, levou '+lg.min+'.':'')+'</div>':'')+'<div class="blk"><b>Aquecimento (8 min)</b><p>Faça séries leves de preparação antes dos exercícios principais (por exemplo, uma com 50% e outra com 75% da carga). Elas não contam como séries de trabalho.</p></div>';
     if(!lg){
       h+='<div class="chips" style="margin:4px 0"><button type="button" class="chip'+(gyShort?'':' on')+'" data-act="gyShort" data-id="0">Completo</button><button type="button" class="chip'+(gyShort?' on':'')+'" data-act="gyShort" data-id="1">Curto</button></div>';
       h+=(gs&&gs.key===key)?'<button type="button" class="btn p" data-act="gyCont">Continuar treino guiado</button>':'<button type="button" class="btn p" data-act="gyStart" data-id="'+key+'">Iniciar treino guiado</button>';
@@ -1971,7 +1989,7 @@ function gySci(){return '<p>Quase todos os exercícios são feitos um lado de ca
 /* guiado */
 const fmtMS=ms=>{const s=Math.max(0,Math.ceil(ms/1000));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 function gyStart(key,short){const k=key.split('g'),its=gyItems(+k[0],+k[1],!!short);S.gy.gs={key:key,short:!!short,ids:its.map(x=>x.id),i:0,sets:{},rest:0,last:'',fin:0,t0:Date.now()};gyGm=true;commit()}
-function gyGItems(){const g=S.gy.gs,k=g.key.split('g'),its=gyItems(+k[0],+k[1],g.short);its.forEach((x,i)=>{if(Array.isArray(g.ids)&&GX[g.ids[i]])x.id=g.ids[i]});return its}
+function gyGItems(){const g=S.gy.gs,k=g.key.split('g'),its=gyItems(+k[0],+k[1],g.short);its.forEach((x,i)=>{if(Array.isArray(g.ids)&&GX[g.ids[i]])x.id=g.ids[i]});if(Array.isArray(g.ord)&&g.ord.length===its.length&&g.ord.every(j=>its[j]))return g.ord.map(j=>its[j]);return its}
 function vGuiadoGy(){
   const g=S.gy.gs,k=g.key.split('g'),w=+k[0],ix=+k[1],its=gyGItems(),now=Date.now();
   if(!g.fin&&!its[g.i])g.fin=1;
@@ -1981,7 +1999,8 @@ function vGuiadoGy(){
     let vol=0;its.forEach(x=>(g.sets[x.id]||[]).forEach(s=>{vol+=s.k*s.r+(s.re!==undefined?s.ke*s.re:0)}));
     h+='<div class="card"><div class="sec"><h3>'+ic('tick')+'Treino completo</h3></div>';
     its.forEach(x=>{const s=g.sets[x.id]||[];h+='<div class="small"><b style="color:var(--ink)">'+GX[x.id].n+':</b> '+(s.length?gySetsTxt(s):'pulado')+'</div>'});
-    h+='<div class="small" style="margin-top:8px">Volume total: <b style="color:var(--ink)">'+Math.round(vol).toLocaleString('pt-BR')+' kg</b></div></div>';
+    const upl=its.filter(x=>{const q=(g.sets[x.id]||[]).map(gyWk).filter(y=>y.r>0);return q.length>=2&&q.every(y=>y.r>=x.hi)}).map(x=>GX[x.id].n);
+    h+='<div class="small" style="margin-top:8px">Volume total: <b style="color:var(--ink)">'+Math.round(vol).toLocaleString('pt-BR')+' kg</b></div><div class="small" style="margin-top:6px">Duração: <b style="color:var(--ink)">'+Math.max(1,Math.round((Date.now()-g.t0)/60000))+' min</b> (previsto '+gyMin(its)+')'+((g.gaps||[]).length?'. Descanso real médio: <b style="color:var(--ink)">'+gyMS(g.gaps.reduce((a,x)=>a+x.r,0)/g.gaps.length)+'</b> (plano '+gyMS(g.gaps.reduce((a,x)=>a+x.p,0)/g.gaps.length)+')':'')+'</div>'+(upl.length?'<div class="small upb" style="margin-top:8px">↑ Suba a carga na próxima vez: '+upl.join(', ')+'.</div>':'')+'</div>';
     h+='<form class="card logf" data-form="gyfin" novalidate><label>Esforço do treino (1 leve, 10 máximo)<select id="gf-rpe">'+[1,2,3,4,5,6,7,8,9,10].map(n=>'<option value="'+n+'"'+(n===8?' selected':'')+'>'+n+'</option>').join('')+'</select></label>'+
      '<label class="chk2"><input type="checkbox" id="gf-pain"> Senti dor que não é muscular (articulação ou tendão)</label>'+
      '<label>Em qual exercício?<select id="gf-pex"><option value="">Nenhum em especial</option>'+its.map(x=>'<option value="'+x.id+'">'+GX[x.id].n+'</option>').join('')+'</select></label>'+
@@ -2002,7 +2021,7 @@ function vGuiadoGy(){
     const hist=gyHist(cur.id),last=hist.length?hist[hist.length-1]:null,sg=gySug(cur,w),ph=GPH[cur.id],pv=sd?done[sd-1]:null,ls=last?last.s[0]:null;
     const dfl=sd2=>{const kk=sd2==='e'?'ke':'k',rr=sd2==='e'?'re':'r';
       if(pv){const pr=pv[rr]>0?pv[rr]:(pv.re>0?pv.re:pv.r),pk=pv[rr]>0?pv[kk]:(pv.re>0?pv.ke:pv.k);return {k:gyNextK(pk,pr,cur),r:pr}}
-      if(ls&&ls[rr]>0)return {k:ls[kk],r:ls[rr]};
+      if(sg.up&&sg.k>0)return {k:sg.k,r:cur.lo};if(ls&&ls[rr]>0)return {k:ls[kk],r:ls[rr]};
       return {k:sg.k>0?sg.k:'',r:cur.lo}};
     const side=(sd2,lbl)=>{const d=dfl(sd2);return '<div class="small" style="margin-top:8px"><b style="color:var(--ink)">'+lbl+'</b></div><div class="two"><label>Carga (kg)<input id="g-k'+sd2+'" type="text" inputmode="decimal" autocomplete="off" value="'+(d.k===''?'':gyF(d.k))+'" placeholder="0"></label><label>Repetições<input id="g-r'+sd2+'" type="number" inputmode="numeric" min="1" max="100" value="'+d.r+'"></label></div>'};
     let inp;
@@ -2013,11 +2032,11 @@ function vGuiadoGy(){
     h+='<div class="card gcard"><div class="small muted">Exercício '+(g.i+1)+' de '+its.length+' · série '+(sd+1)+' de '+cur.n+(xw?' (extra)':'')+'</div><h2 class="gname">'+x.n+'</h2>'+
      '<div class="small"><b style="color:var(--ink)">Alvo:</b> '+cur.lo+(cur.hi!==cur.lo?' a '+cur.hi:'')+' repetições'+(cur.u?' por lado':'')+' · descanso '+gyRest(cur.r)+'</div><div class="small muted">'+x.eq+'</div>'+
      (ph?'<div class="fg">'+ph.map(s=>'<img src="'+s+'" alt="'+x.n+'">').join('')+'</div>':'')+
-     gyExec(x)+(last?'<div class="small muted">Última vez ('+fmtS(last.d)+'): '+gySetsTxt(last.s)+'</div>':'')+'<div class="small">'+(sd?'A carga já vem corrigida pela série anterior.':sg.t)+'</div>'+
+     gyExec(x)+(last?'<div class="small muted">Última vez ('+fmtS(last.d)+'): '+gySetsTxt(last.s)+'</div>':'')+'<div class="small'+(sg.up&&!sd?' upb':'')+'">'+(sd?'A carga já vem corrigida pela série anterior.':(sg.up?'↑ ':'')+sg.t)+'</div>'+
      (sd?'<div class="small muted">Já feitas: '+gySetsTxt(done)+'</div>':'')+inp+
-     '<div class="small bad" id="g-err" role="alert"></div><button type="button" class="btn p" data-act="gySet">Série feita</button>'+
+     '<div class="small bad" id="g-err" role="alert"></div><button type="button" class="btn p" data-act="gySet">Série feita</button>'+(sd?'<button type="button" class="btn o" data-act="gyRep">Repetir a série anterior: '+gySetsTxt([done[sd-1]])+'</button>':'')+
      '<div class="two"><button type="button" class="btn o" data-act="gySkip">Pular exercício</button><button type="button" class="btn o" data-act="gyExit">Sair e continuar depois</button></div>'+
-     '<div class="chips">'+gyAltBtn(cur,'g')+(sd||g.i?'<button type="button" class="btn s o" data-act="gyUndoSet">Desfazer a última série</button>':'')+'</div></div>';
+     '<div class="chips">'+gyAltBtn(cur,'g')+(!sd&&g.i<its.length-1?'<button type="button" class="btn s o" data-act="gyBusy">Aparelho ocupado: deixar para o fim</button>':'')+(sd||g.i?'<button type="button" class="btn s o" data-act="gyUndoSet">Desfazer a última série</button>':'')+'</div></div>';
   }
   h+='<button type="button" class="btn d" data-act="gyAbort">Cancelar este treino</button>';
   return h;
@@ -2452,10 +2471,12 @@ function vProg0(){
   /* academia */
   if(S.gy){
     const cnt={};Object.keys(S.gy.logs||{}).forEach(k=>{const l=S.gy.logs[k];if(l&&l.sets)Object.keys(l.sets).forEach(id=>{if(GX[id]&&l.sets[id].length)cnt[id]=(cnt[id]||0)+1})});
-    const ids=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a]).slice(0,8);if(!pgEx||!cnt[pgEx])pgEx=ids[0]||null;
+    const ids=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a]).slice(0,14);if(!pgEx||!cnt[pgEx])pgEx=ids[0]||null;
     if(pgEx){const pts=[];Object.keys(S.gy.logs).forEach(k=>{const l=S.gy.logs[k];if(!l||!l.sets||!l.sets[pgEx])return;let e=0;l.sets[pgEx].forEach(s=>{const w=gyWk(s);if(w.k>0&&w.r>0)e=Math.max(e,gyE1(w.k,w.r))});if(e>0)pts.push({d:l.date,y:Math.round(e*10)/10})});pts.sort((a,b)=>a.d<b.d?-1:1);
       const ins=pts.length>=2?(pts[pts.length-1].y>=pts[0].y?'+':'')+chN(pts[pts.length-1].y-pts[0].y)+' kg desde o início':'';
-      h+=pgCard('Carga por exercício',ins,'<div class="chips pgc">'+ids.map(id=>'<button type="button" class="chip'+(id===pgEx?' on':'')+'" data-act="pgEx" data-id="'+id+'">'+GX[id].n+'</button>').join('')+'</div>'+chLine({pts:pts,fmt:v=>chN(v)+' kg',label:'Carga estimada de '+GX[pgEx].n,empty:'Faça este exercício 2 vezes para ver a evolução.'}),chTable(['Data','Carga estimada'],pts.map(p=>[chD(p.d),chN(p.y)+' kg'])))}
+      let plt='';if(pts.length>=4){const pm=Math.max.apply(null,pts.slice(0,-3).map(q=>q.y));if(Math.max.apply(null,pts.slice(-3).map(q=>q.y))<=pm)plt='Sem recorde nas últimas 3 vezes. Revise descanso, sono e técnica, ou troque a variação.'}
+      const bst=gyBest(pgEx),recx=(bst?'Recorde: '+gyF(bst.k)+' kg × '+bst.r+'. ':'')+plt;
+      h+=pgCard('Carga por exercício',ins,'<div class="chips pgc">'+ids.map(id=>'<button type="button" class="chip'+(id===pgEx?' on':'')+'" data-act="pgEx" data-id="'+id+'">'+GX[id].n+'</button>').join('')+'</div>'+(recx?'<div class="small muted" style="margin:2px 0 8px">'+recx+'</div>':'')+chLine({pts:pts,fmt:v=>chN(v)+' kg',label:'Carga estimada de '+GX[pgEx].n,empty:'Faça este exercício 2 vezes para ver a evolução.'}),chTable(['Data','Carga estimada'],pts.map(p=>[chD(p.d),chN(p.y)+' kg'])))}
     else h+=pgCard('Carga por exercício','',chEmpty('Registre treinos de academia para ver a carga evoluir.'));
     const vw={};Object.keys(S.gy.logs||{}).forEach(k=>{const l=S.gy.logs[k];if(!l)return;const m=monday(l.date);vw[m]=(vw[m]||0)+gyVol(l)});const m0=monday(T),it=[],f0=Object.keys(vw).sort()[0],nw=f0?Math.min(8,Math.max(4,trDiff(f0,m0)/7+1)):4;for(let i=Math.round(nw)-1;i>=0;i--){const m=addDays(m0,-7*i);it.push({y:vw[m]||0,t:chD(m),hi:m===m0})}
     h+=pgCard('Volume por semana',vw[m0]?'esta semana: '+Math.round(vw[m0]).toLocaleString('pt-BR')+' kg':'',chBar({items:it,fmt:v=>v>=1000?chN(v/1000)+' mil':chN(v,0),label:'Volume levantado por semana'}),chTable(['Semana de','Volume (kg)'],it.map(x=>[x.t,x.y.toLocaleString('pt-BR')])));
@@ -2800,7 +2821,8 @@ document.addEventListener('pointermove',e=>{try{const c=e.target.closest&&e.targ
 document.addEventListener('pointerup',()=>{setTimeout(()=>document.querySelectorAll('.card.lit').forEach(c=>c.classList.remove('lit')),350)},{passive:true});
 /* ----- músculos ----- */
 let visMus='7';
-function muscOf(name){const n=String(name).toLowerCase(),g=[];
+function muscOf(name){const n=String(name).toLowerCase().replace('apoio no peito','apoio'),g=[];
+  if(/invertido|face pull/.test(n))return ['ombros'];
   if(/elevação de pernas|abdominal|prancha|abdômen/.test(n))return ['abd'];
   if(/panturrilha/.test(n))return ['pant'];
   if(/supino|crucifixo|peck|peito|crossover/.test(n))g.push('peito');
@@ -3180,22 +3202,24 @@ function onClick(e){
   else if(a==='gyCont'){gyGm=true;render(false);window.scrollTo(0,0)}
   else if(a==='gyCont2'){tab='treino';trM='gym';gyGm=true;render(true);window.scrollTo(0,0)}
   else if(a==='gyExit'){gyGm=false;render(false);window.scrollTo(0,0)}
-  else if(a==='gySet'){const g=S.gy&&S.gy.gs;if(!g)return;const its=gyGItems(),cur=its[g.i];if(!cur)return;
+  else if(a==='gySet'||a==='gyRep'){const g=S.gy&&S.gy.gs;if(!g)return;const its=gyGItems(),cur=its[g.i];if(!cur)return;
     const er=document.getElementById('g-err'),num=i=>+String((document.getElementById(i)||{}).value||'0').replace(',','.'),rd=i=>Math.round(+((document.getElementById(i)||{}).value)),okk=k=>k>=0&&k<=500,okr=r=>r>=1&&r<=100,msg='Informe a carga (0 a 500 kg) e as repetições (1 a 100).';let set;
-    if(cur.u){const wk=S.gy.weak==='d'?'d':'e',xw=cur.xw&&((g.sets[cur.id]||[]).length===cur.n-1);
+    if(a==='gyRep'){const L0=g.sets[cur.id]||[];if(!L0.length)return;set=Object.assign({},L0[L0.length-1])}else if(cur.u){const wk=S.gy.weak==='d'?'d':'e',xw=cur.xw&&((g.sets[cur.id]||[]).length===cur.n-1);
       const rd1=sd=>({k:num('g-k'+sd),r:rd('g-r'+sd)});
       if(xw){const w=rd1(wk);if(!okk(w.k)||!okr(w.r)){if(er)er.textContent=msg;return}set=wk==='e'?{k:0,r:0,ke:Math.round(w.k*10)/10,re:w.r}:{k:Math.round(w.k*10)/10,r:w.r,ke:0,re:0}}
       else{const e=rd1('e'),d=rd1('d');if(!okk(e.k)||!okr(e.r)||!okk(d.k)||!okr(d.r)){if(er)er.textContent=msg;return}set={k:Math.round(d.k*10)/10,r:d.r,ke:Math.round(e.k*10)/10,re:e.r}}
     }else{const k=num('g-k'),r=rd('g-r');if(!okk(k)||!okr(r)){if(er)er.textContent=msg;return}set={k:Math.round(k*10)/10,r:r}}
-    (g.sets[cur.id]=g.sets[cur.id]||[]).push(set);g.last=cur.id;if(g.sets[cur.id].length>=cur.n)g.i++;
+    {const nw=Date.now();if((g.sets[cur.id]||[]).length&&g.lt&&nw-g.lt<900000)(g.gaps=g.gaps||[]).push({r:Math.max(0,Math.round((nw-g.lt)/1000)-40),p:cur.r});g.lt=nw}(g.sets[cur.id]=g.sets[cur.id]||[]).push(set);g.last=cur.id;if(g.sets[cur.id].length>=cur.n)g.i++;
     if(g.i>=its.length){g.fin=1;g.rest=0}else g.rest=Date.now()+cur.r*1000;commit();window.scrollTo(0,0)}
+  else if(a==='msEd'){msEd=(msEd===id)?null:id;render(false)}
+  else if(a==='gyBusy'){const g=S.gy&&S.gy.gs;if(!g)return;const its=gyGItems(),n=its.length,cur=its[g.i];if(!cur||g.i>=n-1||(g.sets[cur.id]||[]).length)return;const o=(Array.isArray(g.ord)&&g.ord.length===n)?g.ord.slice():its.map((x,j)=>j);const m=o.splice(g.i,1)[0];o.push(m);g.ord=o;commit();toast('Foi para o fim do treino. Faça outro agora.')}
   else if(a==='gyWeak'){if(S.gy&&(id==='e'||id==='d')){S.gy.weak=id;commit();toast('Lado fraco: '+(id==='d'?'direito':'esquerdo')+'.')}}
   else if(a==='gyCalSkip'){if(S.gy){S.gy.calSkip=true;commit();toast('Sem calibração: o app sugere pela primeira série.')}}
   else if(a==='gySkip'){const g=S.gy&&S.gy.gs;if(!g)return;const its=gyGItems();g.i++;g.rest=0;if(g.i>=its.length)g.fin=1;commit();window.scrollTo(0,0)}
   else if(a==='gyAdd'){const g=S.gy&&S.gy.gs;if(g){g.rest+=15000;commit()}}
   else if(a==='gySkipRest'){const g=S.gy&&S.gy.gs;if(g){g.rest=0;commit()}}
-  else if(a==='gyUndoSet'){const g=S.gy&&S.gy.gs;if(!g||!g.last||!(g.sets[g.last]&&g.sets[g.last].length))return;const its=gyGItems(),ix=its.findIndex(x=>x.id===g.last);g.sets[g.last].pop();if(!g.sets[g.last].length)delete g.sets[g.last];g.fin=0;g.rest=0;if(ix>=0)g.i=ix;const ks=Object.keys(g.sets);g.last=ks.length?ks[ks.length-1]:'';commit();toast('Última série desfeita.')}
-  else if(a==='gyAlt'){const g=S.gy&&S.gy.gs;if(!g||!GX[b.dataset.v])return;g.ids=Array.isArray(g.ids)?g.ids:[];g.ids[g.i]=b.dataset.v;S.gy.sub=S.gy.sub||{};if(b.dataset.v===id)delete S.gy.sub[id];else S.gy.sub[id]=b.dataset.v;commit()}
+  else if(a==='gyUndoSet'){const g=S.gy&&S.gy.gs;if(!g||!g.last||!(g.sets[g.last]&&g.sets[g.last].length))return;const its=gyGItems(),ix=its.findIndex(x=>x.id===g.last);if(g.sets[g.last].length>1&&g.gaps&&g.gaps.length)g.gaps.pop();g.sets[g.last].pop();if(!g.sets[g.last].length)delete g.sets[g.last];g.fin=0;g.rest=0;if(ix>=0)g.i=ix;const ks=Object.keys(g.sets);g.last=ks.length?ks[ks.length-1]:'';commit();toast('Última série desfeita.')}
+  else if(a==='gyAlt'){const g=S.gy&&S.gy.gs;if(!g||!GX[b.dataset.v])return;g.ids=Array.isArray(g.ids)?g.ids:[];g.ids[(Array.isArray(g.ord)&&g.ord[g.i]!==undefined)?g.ord[g.i]:g.i]=b.dataset.v;S.gy.sub=S.gy.sub||{};if(b.dataset.v===id)delete S.gy.sub[id];else S.gy.sub[id]=b.dataset.v;commit()}
   else if(a==='gySub'){if(S.gy&&GX[b.dataset.v]){S.gy.sub=S.gy.sub||{};if(b.dataset.v===id)delete S.gy.sub[id];else S.gy.sub[id]=b.dataset.v;commit()}}
   else if(a==='gyDay'){const d=+id,cur=(gySel||S.gy.days).slice(),k=cur.indexOf(d);if(k>=0)cur.splice(k,1);else if(cur.length<3)cur.push(d);else{toast('Já são 3 dias. Desmarque um antes.');return}gySel=cur;render(false)}
   else if(a==='gyAbort'){if(!trAsk){trAsk=true;b.textContent='Toque de novo para cancelar';setTimeout(()=>{trAsk=false;if(b.isConnected)b.textContent='Cancelar este treino'},4000);return}trAsk=false;if(S.gy){S.gy.gs=null;gyGm=false;commit()}}
@@ -3257,7 +3281,19 @@ function onSubmit(e){
     S.fsess.push({id:uid(),date:t,hr:new Date().getHours(),goal:fc.goal,min:fc.spent||fc.min,did:v('e-did'),pend:v('e-pend'),next:v('e-next')});
     const brk=fc.brk||0;fc=null;clearInterval(fcInt);if(brk>0){fc={stage:'break',min:brk,end:Date.now()+brk*60000,goal:''};fcInt=setInterval(fcTick,500)}commit();window.scrollTo(0,0);toast('Sessão salva.');return;
   }
-  if(k==='ms'&&g){
+  if(k==='goaled'&&g){const w=Math.round(+v('ge-w').replace(',','.'));
+    if(!v('ge-t'))return bad('ge-err','Escreva a meta.');
+    if(!v('ge-u'))return bad('ge-err','Escreva a unidade (por exemplo: treinos, páginas).');
+    if(!(w>=1&&w<=1000))return bad('ge-err','A quantidade por semana precisa ser de 1 a 1000.');
+    if(!v('ge-s')||!v('ge-d'))return bad('ge-err','Escolha o início e o prazo.');
+    if(v('ge-d')<=v('ge-s'))return bad('ge-err','O prazo precisa ser depois do início.');
+    g.title=v('ge-t');g.unit=v('ge-u');g.weekly=w;g.start=v('ge-s');g.deadline=v('ge-d');g.why=v('ge-y');g.obstacle=v('ge-o');g.plan=v('ge-p');openF=null;commit();toast('Meta atualizada.');
+  }else if(k==='msed'&&g){const m=g.ms.find(x=>x.id===msEd);if(!m){msEd=null;return}
+    if(!v('me-t'))return bad('me-err','Escreva a etapa.');
+    if(!v('me-d'))return bad('me-err','Escolha a data.');
+    if(v('me-d')>g.deadline)return bad('me-err','A etapa precisa ser antes do prazo ('+fmt(g.deadline)+').');
+    m.t=v('me-t');m.date=v('me-d');msEd=null;commit();toast('Etapa atualizada.');
+  }else if(k==='ms'&&g){
     if(!v('m-t'))return bad('m-err','Escreva a etapa.');
     if(!v('m-d'))return bad('m-err','Escolha a data da etapa.');
     if(v('m-d')>g.deadline)return bad('m-err','A etapa precisa ser antes do prazo ('+fmt(g.deadline)+').');
@@ -3336,9 +3372,9 @@ function onSubmit(e){
     if(!ok)return bad('cal-err','Em cada exercício informe carga (até 500 kg) e repetições (1 a 30), ou deixe os dois em branco.');
     S.gy.cal=c;S.gy.calSkip=false;openF=null;commit();toast('Cargas calibradas.');
   }else if(k==='gyfin'){
-    const g=S.gy&&S.gy.gs;if(!g)return;const rpe=+v('gf-rpe')||8,pain=!!(document.getElementById('gf-pain')||{}).checked,pex=v('gf-pex')||'',sets={};
+    const g=S.gy&&S.gy.gs;if(!g)return;const ga=g.gaps||[],rt=ga.length?{r:Math.round(ga.reduce((a,x)=>a+x.r,0)/ga.length),p:Math.round(ga.reduce((a,x)=>a+x.p,0)/ga.length)}:null,rpe=+v('gf-rpe')||8,pain=!!(document.getElementById('gf-pain')||{}).checked,pex=v('gf-pex')||'',sets={};
     Object.keys(g.sets).forEach(id=>{if(g.sets[id].length)sets[id]=g.sets[id]});
-    S.gy.logs[g.key]={date:t,rpe:rpe,pain:pain,painEx:pain?pex:'',sets:sets,short:g.short?1:0,min:Math.max(1,Math.round((Date.now()-g.t0)/60000))};S.gy.gs=null;gyGm=false;commit();
+    S.gy.logs[g.key]={date:t,rpe:rpe,pain:pain,painEx:pain?pex:'',sets:sets,short:g.short?1:0,min:Math.max(1,Math.round((Date.now()-g.t0)/60000)),em:gyMin(gyGItems()),rt:rt};S.gy.gs=null;gyGm=false;commit();
     toast(pain?'Dor que não é muscular: troque o exercício ou descanse.':'Treino salvo.');
   }else if(k==='bdform'){
     const o={d:t};let any=false;BDF.forEach(f=>{const n=+String(v('bd-'+f[0])).replace(',','.');if(n>0&&n<=400){o[f[0]]=Math.round(n*10)/10;any=true}});
